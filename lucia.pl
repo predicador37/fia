@@ -22,7 +22,8 @@ desayunar(despierta, desayunada).
 jugar_salon(despierta, jugado).
 
 % estado inicial
-:-dynamic actual/1. 
+:-dynamic actual/1, sueño/1.
+sueño(0). 
 actual(dormida).
 
 inicio :-
@@ -57,15 +58,29 @@ condicion_fin(Estado) :-
   actual(Estado) = actual(fin),
   write('has abandonado el juego').
 
+sucesos(Estado) :-
+	actual(Estado) = actual(despierta),
+	writeln('Que tal ha dormido mi niña?'),
+	random_between(0, 1, R),
+	cambia_sueño(R).
+sucesos(Estado) :-
+	true.
 
-
+cambia_sueño(R) :-
+	R == 0,
+	writeln('Déjameeeeee'),
+	retract(sueño(S)),
+	NuevoSueño is S + 10,
+	asserta(sueño(NuevoSueño)).
+cambia_sueño(R) :-
+	R == 1,
+	writeln('Muy bien, papá!!').
 
 % muestra las transiciones posibles desde un estado dado
 listar_transiciones(Estado) :-
 	
   transicion(Accion, Descripcion, Estado, EstadoDestino),
   tab(2),
-  
   write(Descripcion),
   write(': Escriba '),
   write(Accion),
@@ -77,7 +92,7 @@ puedo_ir(Estado):-
   actual(EstadoActual),
   transicion(Accion, Descripcion, EstadoActual, EstadoDestino).
 puedo_ir(EstadoDestino):-
-  write('Ahora no toca hacer eso.'), nl,
+  writeln('Ahora no toca hacer eso.'),
   fail.
   
 cambiar(Estado) :-
@@ -92,5 +107,8 @@ ir(Accion):-
 % indica en que estado se encuentra la ninya y que se puede hacer
 que_hago(Estado) :-
   write('Lucia esta '), write(Estado), nl,
-  write('Que hacemos?:'), nl,
+  sucesos(Estado),
+  sueño(S),
+  write('Sueño = '), write(S), nl,
+  writeln('Que hacemos?:'),
   listar_transiciones(Estado).
