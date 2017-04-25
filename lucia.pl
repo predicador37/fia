@@ -71,6 +71,7 @@ sucesos(EstadoAnterior, Estado) :-
 	actual(Estado) = actual(despierta),
 	EstadoAnterior = dormida,
 	writeln('papá: Que tal ha dormido mi niña?'),
+	% bien o mal, es una cuestión aleatoria
 	random_between(0, 1, R),
 	cambia_sueño(R).
 sucesos(EstadoAnterior, Estado) :-
@@ -80,14 +81,26 @@ sucesos(EstadoAnterior, Estado) :-
 	writeln('nena: Muy bien, papá!!'),
 	writeln('papá: Corre, que vamos tarde...').
 sucesos(EstadoAnterior, Estado) :-
+	actual(Estado) = actual(jugado),
+	EstadoAnterior = despierta,
+	writeln('nena: ¡Vamos a jugar al salón!'),
+	writeln('papá: ¡¡Pero que primero hay que hacer pis!!'),
+	writeln('nena: No, venga, un poquito'),
+	writeln('papá: Corre, que vamos tarde...'),
+	cambia_indicador(humor, 10),
+	cambia_indicador(hambre,10).
+sucesos(EstadoAnterior, Estado) :-
 	true.
+
+cambia_indicador(Indicador, Valor) :-
+	retract(contador(Indicador, AntiguoValor)),
+	NuevoValor is AntiguoValor + Valor,
+	asserta(contador(Indicador, NuevoValor)).
 
 cambia_sueño(R) :-
 	R == 0,
 	writeln('nena: Déjameeeeee'),
-	retract(contador(sueño, S)),
-	NuevoSueño is S + 10,
-	asserta(contador(sueño,NuevoSueño)).
+	cambia_indicador(sueño, 10).
 cambia_sueño(R) :-
 	R == 1,
 	writeln('nena: Muy bien, papá!!').
