@@ -4,7 +4,7 @@ estado(despertada).
 estado(banyada).
 estado(hecho_pis).
 estado(desayunada).
-estado(jugado).
+estado(jugando).
 
 % posibles transiciones entre estados
 transicion('despertar', 'despertarla', dormida, despierta).
@@ -13,28 +13,29 @@ transicion('despertar', 'despertarla', remoloneando, despierta).
 transicion('bañar', 'bañarla', despierta, bañada).
 transicion('hacer_pis', 'llevarla a hacer pis', despierta, hecho_pis).
 transicion('desayunar', 'darle el desayuno', despierta, desayunada).
-transicion('jugar_salon', 'dejarla jugar un rato en el salon', despierta, jugado).
+transicion('jugar_salon', 'dejarla jugar un rato en el salon', despierta, jugando).
 transicion('salir', 'salir', Estado, 'triste porque te vas').
 
 despertar(dormida, despierta).
 banyar(despierta, banyada).
 hacer_pis(despierta, hecho_pis).
 desayunar(despierta, desayunada).
-jugar_salon(despierta, jugado).
+jugar_salon(despierta, jugando).
 
 % estado inicial
+
 :-dynamic actual/1, contador/2.
 actual(dormida).
 
-
-
 inicio :-
-  A is random(100),
-  assert(contador(humor, A)),
-  B is random(100),
-  assert(contador(hambre, B)),
-  assert(contador(sueño,0)),
- 
+  
+  Humor is random(100),
+  Hambre is random(100),
+  Piscaca is random(100),
+  asserta(contador(humor, Humor)),
+  asserta(contador(hambre, Hambre)),
+  asserta(contador(piscaca, Piscaca)),
+  asserta(contador(sueño, 0)),
   lucia.
 
 lucia :-
@@ -65,7 +66,10 @@ condicion_fin(Estado) :-
   write('El juego ha terminado').
 condicion_fin(Estado) :-
   actual(Estado) = actual('triste porque te vas'),
-  write('has abandonado el juego').
+  retractall(contador(X, Y)),
+  retract(actual(Estado)),
+  asserta(actual(dormida)),
+  write('Has abandonado el juego.').
 
 sucesos(EstadoAnterior, Estado) :-
 	actual(Estado) = actual(despierta),
@@ -81,7 +85,7 @@ sucesos(EstadoAnterior, Estado) :-
 	writeln('nena: Muy bien, papá!!'),
 	writeln('papá: Corre, que vamos tarde...').
 sucesos(EstadoAnterior, Estado) :-
-	actual(Estado) = actual(jugado),
+	actual(Estado) = actual(jugando),
 	EstadoAnterior = despierta,
 	writeln('nena: ¡Vamos a jugar al salón!'),
 	writeln('papá: ¡¡Pero que primero hay que hacer pis!!'),
@@ -115,18 +119,10 @@ listar_transiciones(Estado) :-
   fail.
 listar_transiciones(_).
 
-% mostrar indicadores de la niña
-listar_indicadores :-
-  contador(humor,A),
-  contador(hambre,B),
-  contador(sueño,C),
-  tab(2),
-  write('- Humor = '), write(A), nl,
-  tab(2),
-  write('- Hambre = '), write(B), nl,
-  tab(2),
-  write('- Sueño = '), write(C), nl.
-
+print_indicador(Indicador, Valor) :-
+	tab(2),
+    write('- '), write(Indicador), write(': '), write(Valor),
+    nl.
 
 puedo_hacer(Estado):-
   actual(EstadoActual),
@@ -148,6 +144,6 @@ hacer(Accion):-
 que_hago(EstadoAnterior, Estado) :-
   write('Lucía está '), write(Estado), nl,
   sucesos(EstadoAnterior, Estado),
-  listar_indicadores,
+  forall(contador(P,Q), print_indicador(P,Q)),
   writeln('¿Qué hacemos ahora? (introduzca un comando seguido de punto . )'),
   listar_transiciones(Estado).
