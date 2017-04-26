@@ -2,7 +2,7 @@
 estado(dormida).
 estado(despertada).
 estado(banyada).
-estado(hecho_pis).
+estado(aliviada).
 estado(desayunada).
 estado(jugando).
 
@@ -10,25 +10,40 @@ estado(jugando).
 transicion('despertar', 'despertarla', dormida, despierta).
 transicion('dejar_mas', 'dejarla dormir un poco más', dormida, remoloneando).
 transicion('despertar', 'despertarla', remoloneando, despierta).
+
 transicion('bañar', 'bañarla', despierta, bañada).
-transicion('hacer_pis', 'llevarla a hacer pis', despierta, hecho_pis).
+transicion('hacer_pis', 'llevarla a hacer pis', despierta, aliviada).
 transicion('desayunar', 'darle el desayuno', despierta, desayunada).
 transicion('jugar_salon', 'dejarla jugar un rato en el salon', despierta, jugando).
+
+% Estados visitables desde jugando
+transicion('bañar', 'bañarla',jugando, bañada).
+transicion('hacer_pis', 'llevarla a hacer pis', jugando, aliviada).
+transicion('desayunar', 'darle el desayuno', jugando, desayunada).
+
+% Estados visitables desde bañada
+transicion('hacer_pis', 'llevarla a hacer pis', bañada, aliviada).
+transicion('desayunar', 'darle el desayuno', bañada, desayunada).
+transicion('jugar_salon', 'dejarla jugar un rato en el salon', bañada, jugando).
+
 transicion('salir', 'salir', Estado, 'triste porque te vas').
 
 despertar(dormida, despierta).
 banyar(despierta, banyada).
-hacer_pis(despierta, hecho_pis).
+hacer_pis(despierta, aliviada).
 desayunar(despierta, desayunada).
 jugar_salon(despierta, jugando).
 
 % estado inicial
 
-:-dynamic actual/1, contador/2.
+:-dynamic actual/1, contador/2, estados_matinales_visitados/1.
 actual(dormida).
+estados_matinales_visitados([]).
 
 inicio :-
-  
+  retractall(contador(X, Y)),
+  retractall(estados_matinales_visitados([])),
+  asserta(estados_matinales_visitados([])),
   Humor is random(100),
   Hambre is random(100),
   Piscaca is random(100),
@@ -40,7 +55,7 @@ inicio :-
 
 lucia :-
   cambiar(dormida),
-  write('Bienvenido a L.U.C.I.A'),
+  write('*** Bienvenido a L.U.C.I.A'),
   nl,
   actual(Estado),
 
@@ -91,28 +106,39 @@ sucesos(EstadoAnterior, Estado) :-
 	writeln('papá: ¡¡Pero que primero hay que hacer pis!!'),
 	writeln('nena: No, venga, un poquito'),
 	writeln('papá: Corre, que vamos tarde...'),
-	cambia_indicador(humor, 10),
-	cambia_indicador(hambre,10).
+	writeln('*** El humor de la niña mejora, pero sube todo lo demás... ahora tiene más hambre y ganas de hacer pis. ¡¡Cuidado!!'),
+	estados_matinales_visitados(X),
+	append(X, Estado,Y),
+	retract(estados_matinales_visitados(X)),
+	asserta(estados_matinales_visitados([Y])),
+	findall(Indicador, (contador(Indicador, Valor),Indicador \= sueño), Suben),
+	maplist(incrementa_indicador,Suben).
+	
 sucesos(EstadoAnterior, Estado) :-
 	true.
 
-cambia_indicador(Indicador, Valor) :-
+incrementa_indicador(Indicador) :-
 	retract(contador(Indicador, AntiguoValor)),
-	NuevoValor is AntiguoValor + Valor,
+	NuevoValor is AntiguoValor + 10,
+	asserta(contador(Indicador, NuevoValor)).
+	
+reduce_indicador(Indicador) :-
+	retract(contador(Indicador, AntiguoValor)),
+	NuevoValor is AntiguoValor - 10,
 	asserta(contador(Indicador, NuevoValor)).
 
 cambia_sueño(R) :-
 	R == 0,
 	writeln('nena: Déjameeeeee'),
-	cambia_indicador(sueño, 10).
+	incrementa_indicador(sueño).
 cambia_sueño(R) :-
 	R == 1,
 	writeln('nena: Muy bien, papá!!').
 
 % muestra las transiciones posibles desde un estado dado
 listar_transiciones(Estado) :-
-	
-  transicion(Accion, Descripcion, Estado, EstadoDestino),
+ 
+  constraint_transiciones(Estado, Accion, Descripcion),
   tab(2),
   write('- '), write(Accion), write(': '), write(Descripcion),
   nl,
@@ -123,6 +149,12 @@ print_indicador(Indicador, Valor) :-
 	tab(2),
     write('- '), write(Indicador), write(': '), write(Valor),
     nl.
+    
+constraint_transiciones(Estado, Accion, Descripcion) :-
+    transicion(Accion, Descripcion, Estado, EstadoDestino), 
+    estados_matinales_visitados(Visitados), 
+    not(member(EstadoDestino, Visitados)).
+    
 
 puedo_hacer(Estado):-
   actual(EstadoActual),
@@ -146,4 +178,8 @@ que_hago(EstadoAnterior, Estado) :-
   sucesos(EstadoAnterior, Estado),
   forall(contador(P,Q), print_indicador(P,Q)),
   writeln('¿Qué hacemos ahora? (introduzca un comando seguido de punto . )'),
-  listar_transiciones(Estado).
+  estados_matinales_visitados(Visitados),
+  writeln(Visitados),
+  forall((transicion(Accion, Descripcion, Estado, EstadoDestino), \+ member(EstadoDestino, Visitados)), print_indicador(Accion,Descripcion))
+  .
+  %listar_transiciones(Estado).
