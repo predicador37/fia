@@ -47,12 +47,33 @@ transicion(al_parque, 'ir al parque a correr y a toboganear', aprendiendo, corri
 transicion(a_casa, 'ir a casa', aprendiendo, relajandose).
 
 % Estados visitables desde corriendo
-transicion(al_super, 'ir al supermercado', corriendo, comprando).
+transicion(al_super, 'ir al supermercado a hacer la compra', corriendo, comprando).
 transicion(a_casa, 'ir a casa', corriendo, relajandose).
 
 % Estados visitables desde relajandose
-transicion(al_super, 'ir al supermercado', relajandose, comprando).
-transicion(jugar_bloques, 'jugar con los bloques', relajandose, construyendo).
+transicion(al_super, 'ir al supermercado a hacer la compra', relajandose, comprando).
+transicion(jugar_bloques, 'jugar con los bloques de plástico a hacer castillos', relajandose, construyendo).
+
+% Estados visitables desde comprando
+transicion(poner_pijama, 'volver a casa y poner el pijama directamente', comprando, empijamada).
+transicion(jugar_cocinitas, 'volver a casa y jugar a las cocinitas', comprando, cocinando).
+
+% Estados visitables desde construyendo
+transicion(poner_pijama, 'poner el pijama', construyendo, empijamada).
+transicion(jugar_cocinitas, 'jugar a las cocinitas', construyendo, cocinando).
+
+% Estados visitables desde cocinando
+transicion(poner_pijama, 'poner el pijama', cocinando, empijamada).
+
+% Estados visitables desde empijamada
+transicion(cenar, 'cenar', empijamada, cenando).
+
+% Estados visitables desde cenando
+transicion(dormir, 'ir a la cama y a dormir', cenando, soñando).
+transicion(contar_cuento, 'contar un cuento antes de dormir', cenando, imaginando).
+
+% Estados visitables desde imaginando
+transicion(dormir, 'ir a la cama y a dormir', imaginando, soñando).
 
 % Este estado debe poder alcanzarse desde cualquier otro
 transicion(salir, 'salir', _, 'triste porque te vas').
@@ -77,11 +98,10 @@ inicio :-
   retractall(transicion(ir_cole, _, _, _)),
   Humor is random(100),
   Hambre is random(100),
-  random(0, 50, Piscaca),
-  PiscacaInicial is 50 + Piscaca,
+  random(50, 70, Piscaca),
   asserta(contador(humor, Humor)),
   asserta(contador(hambre, Hambre)),
-  asserta(contador(piscaca, PiscacaInicial)),
+  asserta(contador(piscaca, Piscaca)),
   asserta(contador(sueño, 0)),
   asserta(contador(penalizacion,0)),
   lucia.
@@ -112,7 +132,7 @@ control_principal(EstadoAnterior) :-
 
 % condición de fin para el control principal
 condicion_fin(Estado) :-
-  actual(Estado) = actual(hasta_mañana),
+  actual(Estado) = actual(soñando),
   writeln('El juego ha terminado').
 condicion_fin(Estado) :-
   actual(Estado) = actual('triste porque te vas'),
@@ -141,7 +161,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('papá: Corre, que vamos tarde...'),
 	writeln('*** El humor de la niña mejora ligeramente por dejarla remolonear, pero ahora tienes menos tiempo para prepararla...'),
 	incrementa_indicador(humor),
-	penaliza(10).
+	penaliza(5).
 sucesos(Accion, EstadoAnterior, Estado) :-
 	actual(Estado) = actual(jugando),
 	writeln('nena: ¡Vamos a jugar al salón!'),
@@ -150,7 +170,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('papá: Pero nada más, que vamos tarde...'),
 	writeln('*** El humor de la niña mejora, pero sube todo lo demás... ahora tiene más hambre y ganas de hacer pis. ¡¡Cuidado!!'),
 	actualiza_estados_matinales(Estado),
-	penaliza(10),
+	penaliza(5),
 	% El siguiente snippet incrementa en 10 todos los indicadores
 	findall(Indicador, (contador(Indicador, _),Indicador \= sueño), Suben),
 	maplist(incrementa_indicador,Suben).
@@ -173,7 +193,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('papá: Muy bien, mi niña. ¡A limpiar!'),
 	writeln('*** Limpias bien a la niña y le ayudas a bajarse del sanitario (o como se conoce en Cantabria, la baza)'),
 	actualiza_estados_matinales(Estado),
-	reemplaza_indicador(piscaca,10),
+	reemplaza_indicador(piscaca,5),
 	incrementa_indicador(humor),
 	incrementa_indicador(hambre).
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -187,7 +207,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: ¡E muy bonita la camiseta de la biciceta, papá!'),
 	writeln('papá: Claro que sí. Venga, te peino y verás qué guapa.'),
 	actualiza_estados_matinales(Estado),
-	penaliza(20),
+	penaliza(15),
 	incrementa_indicador(piscaca),
 	incrementa_indicador(humor),
 	incrementa_indicador(hambre).
@@ -323,15 +343,24 @@ hacer(Accion):-
 	cambiar(Estado).
 	
 lista_transiciones(Estado, Visitados) :-
-	forall((transicion(Accion, Descripcion, Estado, EstadoDestino), \+ member(EstadoDestino, Visitados)), print_par(Accion,Descripcion)).
+	writeln('---------------------------------------------------------------------------------------------------------------------------'),
+	forall((transicion(Accion, Descripcion, Estado, EstadoDestino), \+ member(EstadoDestino, Visitados)), print_par(Accion,Descripcion)),
+	writeln('---------------------------------------------------------------------------------------------------------------------------').
+
+lista_indicadores :-
+	writeln('==========================================================================================================================='),
+	forall(contador(P,Q), print_par(P,Q)),
+	writeln('===========================================================================================================================').
 	
 
 % indica en que estado se encuentra la ninya y que se puede hacer
 que_hago(Accion, EstadoAnterior, Estado) :-
+  writeln('.................................'),	
   write('Lucía está '), write(Estado), nl,
+  writeln('.................................'),
   sucesos(Accion, EstadoAnterior, Estado),
   % lista los indicadores que determinan cómo se encuentra la niña, junto con sus valores
-  forall(contador(P,Q), print_par(P,Q)),
+  lista_indicadores,
   estados_matinales_visitados(Visitados),
   ( length(Visitados,4) -> asserta(transicion('ir_cole', 'vamos al cole ya', Estado, lista));true), 
   writeln('¿Qué hacemos ahora? (introduzca un comando seguido de punto . )'),
