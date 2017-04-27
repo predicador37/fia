@@ -22,23 +22,20 @@ transicion(jugar_salon, 'dejarla jugar un rato en el salon', despierta, jugando)
 transicion(bañar, 'bañarla',jugando, bañada).
 transicion(hacer_pis, 'llevarla a hacer pis', jugando, aliviada).
 transicion(desayunar, 'darle el desayuno', jugando, desayunando).
-%transicion(ir_cole, 'vamos al cole ya', jugando, lista).
 
 % Estados visitables desde bañada
 transicion(hacer_pis, 'llevarla a hacer pis', bañada, aliviada).
 transicion(desayunar, 'darle el desayuno', bañada, desayunando).
 transicion(jugar_salon, 'dejarla jugar un rato en el salon', bañada, jugando).
-%transicion(ir_cole', 'vamos al cole ya', bañada, lista).
 
 % Estados visitables desde aliviada
 transicion(bañar, 'bañarla', aliviada, bañada).
 transicion(desayunar, 'darle el desayuno', aliviada, desayunando).
 transicion(jugar_salon, 'dejarla jugar un rato en el salon', aliviada, jugando).
-%transicion(ir_cole, 'vamos al cole ya', aliviada, lista).
 
 % Estados visitables desde desayunando
 transicion(hacer_pis, 'llevarla a hacer pis', desayunando, aliviada).
-transicion(bañar, 'darle el desayuno', desayunando, bañada).
+transicion(bañar, 'bañarla', desayunando, bañada).
 transicion(jugar_salon, 'dejarla jugar un rato en el salon', desayunando, jugando).
 
 % Estados visitables desde lista
@@ -46,10 +43,18 @@ transicion(con_muñeco, 'dejarla llevar un muñeco', lista, aprendiendo).
 transicion(sin_muñeco, 'no dejarla llevar un muñeco', lista, aprendiendo).
 
 % Estados visitables desde aprendiendo
-transicion(al_parque, 'vamos al parque', aprendiendo, parque).
-transicion(a_casa, 'vamos a casa', aprendiendo, casa).
+transicion(al_parque, 'ir al parque a correr y a toboganear', aprendiendo, corriendo).
+transicion(a_casa, 'ir a casa', aprendiendo, relajandose).
 
+% Estados visitables desde corriendo
+transicion(al_super, 'ir al supermercado', corriendo, comprando).
+transicion(a_casa, 'ir a casa', corriendo, relajandose).
 
+% Estados visitables desde relajandose
+transicion(al_super, 'ir al supermercado', relajandose, comprando).
+transicion(jugar_bloques, 'jugar con los bloques', relajandose, construyendo).
+
+% Este estado debe poder alcanzarse desde cualquier otro
 transicion(salir, 'salir', _, 'triste porque te vas').
 
 despertar(dormida, despierta).
@@ -62,15 +67,12 @@ jugar_salon(despierta, jugando).
 
 
 actual(dormida).
-penalizacion(0).
 estados_matinales_visitados([]).
 
 % bloque de inicialización de hechos necesarios y utilizados a modo de variable.
 inicio :-
   retractall(contador(_, _)),
   retractall(estados_matinales_visitados([])),
-  retractall(penalizacion(_)),
-  asserta(penalizacion(0)),
   asserta(estados_matinales_visitados([])),
   retractall(transicion(ir_cole, _, _, _)),
   Humor is random(100),
@@ -81,6 +83,7 @@ inicio :-
   asserta(contador(hambre, Hambre)),
   asserta(contador(piscaca, PiscacaInicial)),
   asserta(contador(sueño, 0)),
+  asserta(contador(penalizacion,0)),
   lucia.
 
 lucia :-
@@ -103,6 +106,7 @@ control_principal(EstadoAnterior) :-
   read(Accion),
   hacer(Accion),
   actual(NuevoEstado),
+  check_indicadores,
   que_hago(Accion, EstadoAnterior, NuevoEstado),
   control_principal(NuevoEstado).
 
@@ -119,6 +123,10 @@ condicion_fin(Estado) :-
 
 % el siguiente predicado en todas sus variantes modela los distintos sucesos que acontecen según el estado en el que se encuentra el programa
 sucesos(Accion, EstadoAnterior, Estado) :-
+	actual(Estado) = actual(remoloneando),
+	EstadoAnterior = dormida,
+	writeln('*** Pobre niña, está entera esnucada y es tan mona de dormida... que te da pena y decides dejarla un poquito más. Eres blando... y ella tan tierna...'). 
+sucesos(Accion, EstadoAnterior, Estado) :-
 	actual(Estado) = actual(despierta),
 	EstadoAnterior = dormida,
 	writeln('papá: Que tal ha dormido mi niña?'),
@@ -130,15 +138,20 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	EstadoAnterior = remoloneando,
 	writeln('papá: Que tal ha dormido mi niña?'),
 	writeln('nena: Muy bien, papá!!'),
-	writeln('papá: Corre, que vamos tarde...').
+	writeln('papá: Corre, que vamos tarde...'),
+	writeln('*** El humor de la niña mejora ligeramente por dejarla remolonear, pero ahora tienes menos tiempo para prepararla...'),
+	incrementa_indicador(humor),
+	penaliza(10).
 sucesos(Accion, EstadoAnterior, Estado) :-
 	actual(Estado) = actual(jugando),
 	writeln('nena: ¡Vamos a jugar al salón!'),
 	writeln('papá: ¡¡Pero que tenemos que ir al cole!!'),
 	writeln('nena: Cinco minutos, papá.'),
-	writeln('papá: Corre, que vamos tarde...'),
+	writeln('papá: Pero nada más, que vamos tarde...'),
 	writeln('*** El humor de la niña mejora, pero sube todo lo demás... ahora tiene más hambre y ganas de hacer pis. ¡¡Cuidado!!'),
 	actualiza_estados_matinales(Estado),
+	penaliza(10),
+	% El siguiente snippet incrementa en 10 todos los indicadores
 	findall(Indicador, (contador(Indicador, _),Indicador \= sueño), Suben),
 	maplist(incrementa_indicador,Suben).
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -150,14 +163,15 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('*** A la niña se le quita el hambre, pero tarda mucho en desayunar...'),
 	actualiza_estados_matinales(Estado),
 	reduce_indicador(hambre),
-	incrementa_indicador(piscaca).
+	incrementa_indicador(piscaca),
+	penaliza(10).
 sucesos(Accion, EstadoAnterior, Estado) :-
 	actual(Estado) = actual(aliviada),
 	writeln('papá: Vamos a hacer pis.'),
 	writeln('nena: ¡Vale, papá!'),
 	writeln('*** Pones a Lucía en el reductor para el W.C. con motivos decorativos de Peppa Pig, y allí hace pis muy feliz. Le gusta mucho Peppa Pig; no en vano, el reductor ha costado 15€ frente a los 5 que cuesta uno, no sé, simplemente, azul.'),
 	writeln('papá: Muy bien, mi niña. ¡A limpiar!'),
-	writeln('*** Limpias bien a la niña y la ayudas a bajarse del maravilloso sanitario (o como se conoce en Cantabria, la baza)'),
+	writeln('*** Limpias bien a la niña y le ayudas a bajarse del sanitario (o como se conoce en Cantabria, la baza)'),
 	actualiza_estados_matinales(Estado),
 	reemplaza_indicador(piscaca,10),
 	incrementa_indicador(humor),
@@ -206,12 +220,13 @@ sucesos(_, _, _) :-
 	
 % comprueba el estado de los indicadores y penaliza el tiempo en consecuencia	
 check_indicadores :-
+	actual(EstadoIndicadores),
+	\+ (EstadoIndicadores = dormida),
+	\+ (EstadoIndicadores = remoloneando),
 	contador(piscaca,Piscaca),
 	contador(humor,Humor),
 	contador(hambre,Hambre),
-	(Piscaca >= 80 -> penaliza_pis),
-	(Hambre >= 80 -> penaliza_hambre),
-	(Humor =< 30 -> penaliza_humor).
+	(Piscaca >= 80 -> penaliza_pis; Hambre >= 80 -> penaliza_hambre; Humor =< 30 -> penaliza_humor ).
 check_indicadores :-
 	true.
 	
@@ -224,14 +239,11 @@ actualiza_estados_matinales(Estado) :-
 
 % calcula la penalización en tiempo cuando la niña se hace pis	
 penaliza_pis :-
-	writeln('*** Lucía no se ha podido aguantar más y se ha hecho pis. Como es muy sensible, se ve visiblemente afectada y su humor baja. Naturalmente, hay que lavarla y cambiarla, lo que provocará un cierto retraso...'),
+	writeln('*** Lucía no se ha podido aguantar más y se ha hecho pis. Como es muy sensible, se ve visiblemente afectada y su humor baja. Naturalmente, hay que lavarla y cambiarla, lo que va a llevar un ratito...'),
 	reduce_indicador(humor,20),
 	retract(contador(piscaca, _)),
 	asserta(contador(piscaca, 10)),
-	penalizacion(Penalizacion),
-	retract(penalizacion(Penalizacion)),
-	NuevaPenalizacion is Penalizacion + 25,
-	asserta(penalizacion(NuevaPenalizacion)).
+	penaliza(25).
 
 % calcula la penalización en tiempo cuando la niña tiene mucho hambre	
 penaliza_hambre :-
@@ -239,24 +251,18 @@ penaliza_hambre :-
 	reduce_indicador(humor,20),
 	retract(contador(hambre, _)),
 	asserta(contador(hambre, 10)),
-	penalizacion(Penalizacion),
-	retract(penalizacion(Penalizacion)),
-	NuevaPenalizacion is Penalizacion + 15,
-	asserta(penalizacion(NuevaPenalizacion)).
+	penaliza(15).
 
 % calcula la penalización en tiempo cuando la niña está de muy mal humor	
 penaliza_humor :-
 	writeln('*** Lucía tiene un humor de perros, y aunque no es normal en ella, monta un pollo de cuidado. Tienes que estar un buen rato hablándole y explicándole para que se tranquilice y se preste a colaborar... Ese tiempo era necesario, pero ya no volverá.'), 
-	penalizacion(Penalizacion),
-	retract(penalizacion(Penalizacion)),
-	NuevaPenalizacion is Penalizacion + 10,
-	asserta(penalizacion(NuevaPenalizacion)).
+	penaliza(10).
 
 penaliza(Valor) :-
-	penalizacion(Penalizacion),
-	retract(penalizacion(Penalizacion)),
+	contador(penalizacion,Penalizacion),
+	retract(contador(penalizacion, Penalizacion)),
 	NuevaPenalizacion is Penalizacion + Valor,
-	asserta(penalizacion(NuevaPenalizacion)).
+	asserta(contador(penalizacion, NuevaPenalizacion)).
 	
 
 % realiza un incremento estándar sobre un indicador (10)
@@ -314,8 +320,10 @@ cambiar(Estado) :-
 hacer(Accion):-
 	transicion(Accion, _, _, Estado),
 	puedo_hacer(Estado),
-	cambiar(Estado),
-	check_indicadores.
+	cambiar(Estado).
+	
+lista_transiciones(Estado, Visitados) :-
+	forall((transicion(Accion, Descripcion, Estado, EstadoDestino), \+ member(EstadoDestino, Visitados)), print_par(Accion,Descripcion)).
 	
 
 % indica en que estado se encuentra la ninya y que se puede hacer
@@ -328,5 +336,4 @@ que_hago(Accion, EstadoAnterior, Estado) :-
   ( length(Visitados,4) -> asserta(transicion('ir_cole', 'vamos al cole ya', Estado, lista));true), 
   writeln('¿Qué hacemos ahora? (introduzca un comando seguido de punto . )'),
   % lista las transiciones disponibles desde ese estado, teniendo en cuenta los ya visitados en el caso de los matinales para reducir el árbol de estados
-  forall((transicion(Accionbis, Descripcion, Estado, EstadoDestino), \+ member(EstadoDestino, Visitados)), print_par(Accionbis,Descripcion))
-  .
+  lista_transiciones(Estado, Visitados).
