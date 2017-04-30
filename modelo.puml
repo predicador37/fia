@@ -1,0 +1,23 @@
+@startuml
+scale 350 width
+[*] --> Dormida
+Dormida --> Despierta
+Dormida --> Remoloneando
+Remoloneando --> Despierta
+Despierta --> Bañándose
+Despierta --> Aliviándose
+Despierta --> Desayunando
+Despierta --> Jugando
+Jugando --> Bañándose
+Jugando --> Aliviándose
+Jugando --> Desayunando
+Bañándose --> Aliviándose
+Bañándose -->
+Aliviándose --> Bañándose
+Aliviándose --> Desayunando
+
+
+
+
+}
+@enduml

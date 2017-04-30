@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+    "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg contentScriptType="text/ecmascript" width="1196.0349"
+     xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="magnify"
+     contentStyleType="text/css"
+     viewBox="-593.639893 -602.463501 1196.034912 1147.463501"
+     height="1147.4635" preserveAspectRatio="xMidYMid meet"
+     xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <g id="edges">
+        <path fill="none" stroke-width="1.0"
+              d="M -511.270813,167.606140 C -593.639893,44.173744 -532.044983,-264.528473 -408.612579,-346.897583"
+              class="Dormida Despierta" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -511.270813,167.606140 C -569.827454,117.716209 -582.827454,-44.953659 -532.937561,-103.510292"
+              class="Dormida Remoloneando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -532.937561,-103.510292 C -556.750000,-177.052734 -482.155029,-323.085114 -408.612579,-346.897583"
+              class="Remoloneando Despierta" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -408.612579,-346.897583 C -338.053711,-386.794464 -172.370056,-340.801483 -132.473175,-270.242615"
+              class="Despierta Bañándose" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -408.612579,-346.897583 C -396.834656,-427.108459 -258.851471,-529.757996 -178.640579,-517.980103"
+              class="Despierta Aliviándose" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -408.612579,-346.897583 C -287.616852,-438.198181 30.827690,-393.655487 122.128296,-272.659760"
+              class="Despierta Desayunando" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -408.612579,-346.897583 C -344.291199,-485.922913 -39.271175,-597.978821 99.754158,-533.657471"
+              class="Despierta Jugando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 99.754158,-533.657471 C 105.991669,-434.529022 -33.344738,-276.480133 -132.473175,-270.242615"
+              class="Jugando Bañándose" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 99.754158,-533.657471 C 47.210686,-474.843018 -119.826157,-465.436646 -178.640579,-517.980103"
+              class="Jugando Aliviándose" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 99.754158,-533.657471 C 156.428528,-485.932739 169.853012,-329.334137 122.128296,-272.659760"
+              class="Jugando Desayunando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 99.754158,-533.657471 C 177.257370,-559.326477 332.015686,-481.575104 357.684662,-404.071899"
+              class="Jugando Lista" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -132.473175,-270.242615 C -191.254150,-310.556610 -218.954605,-459.199127 -178.640579,-517.980103"
+              class="Bañándose Aliviándose" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -132.473175,-270.242615 C -82.036316,-321.646332 70.724579,-323.096619 122.128296,-272.659760"
+              class="Bañándose Desayunando" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -132.473175,-270.242615 C -138.710678,-369.371063 0.625721,-527.419922 99.754158,-533.657471"
+              class="Bañándose Jugando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -132.473175,-270.242615 C -61.207462,-395.040039 232.887222,-475.337585 357.684662,-404.071899"
+              class="Bañándose Lista" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -178.640579,-517.980103 C -119.859604,-477.666107 -92.159149,-329.023590 -132.473175,-270.242615"
+              class="Aliviándose Bañándose" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -178.640579,-517.980103 C -69.422729,-529.069824 111.038589,-381.877594 122.128296,-272.659760"
+              class="Aliviándose Desayunando" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -178.640579,-517.980103 C -126.097107,-576.794556 40.939735,-586.200928 99.754158,-533.657471"
+              class="Aliviándose Jugando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -178.640579,-517.980103 C -48.593887,-602.463501 273.201263,-534.118591 357.684662,-404.071899"
+              class="Aliviándose Lista" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 122.128296,-272.659760 C 12.910454,-261.570038 -167.550873,-408.762268 -178.640579,-517.980103"
+              class="Desayunando Aliviándose" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 122.128296,-272.659760 C 71.691437,-221.256042 -81.069458,-219.805756 -132.473175,-270.242615"
+              class="Desayunando Bañándose" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 122.128296,-272.659760 C 65.453918,-320.384491 52.029446,-476.983093 99.754158,-533.657471"
+              class="Desayunando Jugando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 122.128296,-272.659760 C 142.957138,-346.053467 284.290955,-424.900726 357.684662,-404.071899"
+              class="Desayunando Lista" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="2.0"
+              d="M 357.684662,-404.071899 C 408.938812,-322.972595 364.171143,-124.442398 283.071838,-73.188232"
+              class="Lista Aprendiendo" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 283.071838,-73.188232 C 242.371857,-2.067299 74.640503,43.564133 3.519565,2.864151"
+              class="Aprendiendo Corriendo" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 283.071838,-73.188232 C 232.721161,82.868668 -76.890198,241.427979 -232.947098,191.077316"
+              class="Aprendiendo Relajándose" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 3.519565,2.864151 C 61.896111,61.943333 60.842155,238.126938 1.762976,296.503479"
+              class="Corriendo Comprando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 3.519565,2.864151 C -6.131134,87.800110 -148.011139,200.728027 -232.947098,191.077316"
+              class="Corriendo Relajándose" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -232.947098,191.077316 C -164.919846,165.220535 -24.093805,228.476227 1.762976,296.503479"
+              class="Relajándose Comprando" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -232.947098,191.077316 C -213.590164,260.413116 -288.558502,393.452179 -357.894287,412.809082"
+              class="Relajándose Construyendo" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 1.762976,296.503479 C 78.716217,303.148682 184.178223,428.546356 177.533020,505.499603"
+              class="Comprando Empijamada" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 1.762976,296.503479 C 27.503071,365.795685 -37.825096,508.344147 -107.117302,534.084229"
+              class="Comprando Cocinando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -357.894287,412.809082 C -232.270721,324.261719 88.985657,379.876038 177.533020,505.499603"
+              class="Construyendo Empijamada" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -357.894287,412.809082 C -283.483856,386.908722 -133.017670,459.673798 -107.117302,534.084229"
+              class="Construyendo Cocinando" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 177.533020,505.499603 C 109.270386,301.940216 312.215515,-105.792755 515.774902,-174.055389"
+              class="Empijamada Cenando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 177.533020,505.499603 C 166.530167,355.761078 374.633667,114.649040 524.372192,103.646202"
+              class="Empijamada Imaginando" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 177.533020,505.499603 C 124.255211,429.101929 158.934998,234.588684 235.332672,181.310867"
+              class="Empijamada Miccionando" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 515.774902,-174.055389 C 573.034729,-120.234528 578.193054,46.386421 524.372192,103.646202"
+              class="Cenando Imaginando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 515.774902,-174.055389 C 530.759705,-46.893692 362.494354,166.326065 235.332672,181.310867"
+              class="Cenando Miccionando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 515.774902,-174.055389 C 602.394958,-46.679447 541.261108,274.314545 413.885193,360.934601"
+              class="Cenando Soñando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 524.372192,103.646202 C 482.097229,176.987045 308.673492,223.585846 235.332672,181.310867"
+              class="Imaginando Miccionando" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 524.372192,103.646202 C 467.112396,49.825340 461.954071,-116.795609 515.774902,-174.055389"
+              class="Imaginando Cenando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 524.372192,103.646202 C 553.732483,177.201279 487.440277,331.574341 413.885193,360.934601"
+              class="Imaginando Soñando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 235.332672,181.310867 C 277.607635,107.970032 451.031372,61.371235 524.372192,103.646202"
+              class="Miccionando Imaginando" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 235.332672,181.310867 C 220.347870,54.149170 388.613220,-159.070587 515.774902,-174.055389"
+              class="Miccionando Cenando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 235.332672,181.310867 C 306.967926,181.525116 414.099426,289.299347 413.885193,360.934601"
+              class="Miccionando Soñando" stroke-opacity="1.0" stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -511.270813,167.606140 C -509.137482,74.401474 -366.130524,-62.205540 -272.925842,-60.072216"
+              class="Dormida Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -532.937561,-103.510292 C -472.247589,-146.825012 -316.240570,-120.762177 -272.925842,-60.072216"
+              class="Remoloneando Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -408.612579,-346.897583 C -324.110138,-316.669861 -242.698120,-144.574631 -272.925842,-60.072216"
+              class="Despierta Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 99.754158,-533.657471 C 119.935211,-364.404419 -103.672775,-80.253273 -272.925842,-60.072216"
+              class="Jugando Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -132.473175,-270.242615 C -118.529633,-200.118011 -202.801239,-74.015762 -272.925842,-60.072216"
+              class="Bañándose Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -178.640579,-517.980103 C -105.916054,-407.541473 -162.487213,-132.796738 -272.925842,-60.072216"
+              class="Aliviándose Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 122.128296,-272.659760 C 85.634972,-151.131409 -151.397491,-23.578888 -272.925842,-60.072216"
+              class="Desayunando Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 357.684662,-404.071899 C 300.362488,-209.149872 -78.003799,-2.750061 -272.925842,-60.072216"
+              class="Lista Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 283.071838,-73.188232 C 174.495514,40.634499 -159.103119,48.504112 -272.925842,-60.072216"
+              class="Aprendiendo Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 3.519565,2.864151 C -64.356789,45.565960 -230.224030,7.804138 -272.925842,-60.072216"
+              class="Corriendo Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -232.947098,191.077316 C -291.172760,148.843155 -315.160004,-1.846559 -272.925842,-60.072216"
+              class="Relajándose Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 1.762976,296.503479 C -124.489929,280.126099 -289.303223,66.180695 -272.925842,-60.072216"
+              class="Comprando Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -357.894287,412.809082 C -435.476868,301.239136 -384.495789,17.510359 -272.925842,-60.072216"
+              class="Construyendo Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 177.533020,505.499603 C -25.673134,482.476990 -295.948425,143.133942 -272.925842,-60.072216"
+              class="Empijamada Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 515.774902,-174.055389 C 380.831360,6.481400 -92.389053,74.871307 -272.925842,-60.072216"
+              class="Cenando Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 524.372192,103.646202 C 332.168915,230.362122 -146.209915,132.131073 -272.925842,-60.072216"
+              class="Imaginando Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 235.332672,181.310867 C 85.404358,234.685959 -219.550751,89.856102 -272.925842,-60.072216"
+              class="Miccionando Triste porque te vas" stroke-opacity="1.0"
+              stroke="#999999"/>
+    </g>
+    <g id="nodes">
+        <circle fill-opacity="1.0" fill="#999999" r="30.4" cx="-511.2708"
+                class="Dormida" cy="167.60614" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="-408.61258"
+                class="Despierta" cy="-346.89758" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="-532.93756"
+                class="Remoloneando" cy="-103.51029" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="-132.47318"
+                class="Bañándose" cy="-270.2426" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="-178.64058"
+                class="Aliviándose" cy="-517.9801" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="122.128296"
+                class="Desayunando" cy="-272.65976" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="99.75416"
+                class="Jugando" cy="-533.6575" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="0.1" cx="357.68466"
+                class="Lista" cy="-404.0719" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="0.1" cx="283.07184"
+                class="Aprendiendo" cy="-73.18823" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="3.519565"
+                class="Corriendo" cy="2.8641512" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="-232.9471"
+                class="Relajándose" cy="191.07732" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="1.7629759"
+                class="Comprando" cy="296.50348" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="-357.8943"
+                class="Construyendo" cy="412.80908" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="177.53302"
+                class="Empijamada" cy="505.4996" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="-107.1173"
+                class="Cocinando" cy="534.0842" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="515.7749"
+                class="Cenando" cy="-174.05539" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="524.3722"
+                class="Imaginando" cy="103.6462" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="12.8" cx="235.33267"
+                class="Miccionando" cy="181.31087" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="30.800001" cx="413.8852"
+                class="Soñando" cy="360.9346" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#999999" r="10.0" cx="-272.92584"
+                class="Triste porque te vas" cy="-60.072216" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+    </g>
+</svg>

@@ -1,0 +1,68 @@
+Source;Target;Label
+Dormida;Despierta;despertar
+Dormida;Remoloneando;dejar_más
+Remoloneando;Despierta;despertar
+Despierta;Bañándose;bañar
+Despierta;Aliviándose;hacer_pis
+Despierta;Desayunando;desayunar
+Despierta;Jugando;jugar_salon
+Jugando;Bañándose;bañar
+Jugando;Aliviándose;hacer_pis
+Jugando;Desayunando;desayunar
+Jugando;Lista;ir_cole
+Bañándose;Aliviándose;hacer_pis
+Bañándose;Desayunando;desayunar
+Bañándose;Jugando;jugar_salon
+Bañándose;Lista;ir_cole
+Aliviándose;Bañándose;bañar
+Aliviándose;Desayunando;desayunar
+Aliviándose;Jugando;jugar_salon
+Aliviándose;Lista;ir_cole
+Desayunando;Aliviándose;hacer_pis
+Desayunando;Bañándose;bañar
+Desayunando;Jugando;jugar_salon
+Desayunando;Lista;ir_cole
+Lista;Aprendiendo;con_muñeco
+Lista;Aprendiendo;sin_muñeco
+Aprendiendo;Corriendo;al_parque
+Aprendiendo;Relajándose;a_casa
+Corriendo;Comprando;al_super
+Corriendo;Relajándose;a_casa
+Relajándose;Comprando;al_super
+Relajándose;Construyendo;jugar_bloques
+Comprando;Empijamada;poner_pijama
+Comprando;Cocinando;jugar_cocinitas
+Construyendo;Empijamada;poner_pijama
+Construyendo;Cocinando;jugar_cocinitas
+Empijamada;Cenando;cenar
+Empijamada;Imaginando;contar_cuento
+Empijamada;Miccionando;hacer_pis
+Cenando;Imaginando;contar_cuento
+Cenando;Miccionando;hacer_pis
+Cenando;Soñando;a_dormir
+Imaginando;Miccionando;hacer_pis
+Imaginando;Cenando;cenar
+Imaginando;Soñando;a_dormir
+Miccionando;Imaginando;contar_cuento
+Miccionando;Cenando;cenar
+Miccionando;Soñando;a_dormir
+Dormida;Triste porque te vas;salir
+Remoloneando;Triste porque te vas;salir
+Despierta;Triste porque te vas;salir
+Jugando;Triste porque te vas;salir
+Bañándose;Triste porque te vas;salir
+Aliviándose;Triste porque te vas;salir
+Desayunando;Triste porque te vas;salir
+Lista;Triste porque te vas;salir
+Aprendiendo;Triste porque te vas;salir
+Corriendo;Triste porque te vas;salir
+Relajándose;Triste porque te vas;salir
+Comprando;Triste porque te vas;salir
+Construyendo;Triste porque te vas;salir
+Empijamada;Triste porque te vas;salir
+Cenando;Triste porque te vas;salir
+Imaginando;Triste porque te vas;salir
+Miccionando;Triste porque te vas;salir
+
+
+

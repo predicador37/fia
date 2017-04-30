@@ -1,3 +1,78 @@
+# Descripción del conocimiento del dominio
+
+El tema elegido, contextualizado dentro de *"la familia"* (propuesto por el equipo docente), sería *"los hijos"* 
+(previamente aprobado). En concreto, está basado en mi hija de tres años (Lucía). El conocimiento del dominio se ha 
+extraído de mi experiencia como padre en el día a día de la vida con la niña. No está exento de humor, puesto que en 
+la realidad tampoco lo está. Se ha tratado de simplificar al máximo para permitir concretar los límites del programa,
+ que de otra forma podría ser de una complejidad inabarcable.
+ 
+El formato del programa es el de un juego o simulación en el que se asume el papel de padre de la niña en un día de asueto (o trabajo) de la madre, con lo que no se dispondrá de su inestimable ayuda (el papá está solo ante el peligro). El 
+objetivo es minimizar la penalización por tiempo invertido en la niña a lo largo de todo el día para que el papá disponga del mayor intervalo posible para estudiar sus asignaturas de la UNED. Es decir, conseguir que la niña se duerma pronto y esté contenta y con sus necesidades básicas satisfechas. Se modela la personalidad de la niña como una sencilla máquina
+ de estados (ojalá fuera así de sencilla la realidad, pero se trata de un modelo simplificado). Además, a lo largo del paso por todos los estados se dispone de una serie de indicadores vitales básicos (a saber: humor, hambre, sueño y ganas de hacer pis). Las transiciones entre estados se corresponden con las posibles acciones que puede realizar el padre, introducidas a través del teclado. Las distintas acciones posibles implican distintas penalizaciones y reducciones o incrementos de los valores de los indicadores. Si se sobrepasan ciertos umbrales de los indicadores, es muy posible que las consecuencias para el objetivo del juego sean nefastas (por ejemplo, que la niña se haga pis encima supondrá una penalización por tiempo considerable). 
+ 
+ A continuación se incluye un grafo representando el diagrama de estados que forma la práctica totalidad de la base de hechos:
+ 
+ ![Diagrama de estados - Base de hechos](./modelo.png)
+  
+# Descripción de la estructura de base de reglas
+ 
+Con respecto a la base de conocimiento, se dispone de los siguientes bloques de predicados a modo de reglas: 
+ 
+## Módulo de control del programa:
+Contiene predicados que se encargan de gestionar la entrada de acciones por el teclado, la ejecución de las mismas y la comprobación del estado de los indicadores básicos.
+
+- control_principal
+- condicion_fin
+
+## Módulo de eventos o sucesos:
+Determina lo que ocurre en cada estado al que se transiciona. Actualiza los indicadores y la penalización en consecuencia.
+ - sucesos(Accion, EstadoAnterior, Estado)
+ 
+ 
+## Módulo de indicadores y penalización:
+ 
+Contiene toda una serie de predicados que modifican y/o listan los indicadores y la penalización por tiempo.
+ 
+ - check_indicadores
+ - check_humor
+ - check_humor_pijama
+ - check_pasada_de_vueltas
+ - penaliza_pis
+ - penaliza_hambre
+ - penaliza_humor
+ - penaliza(Valor)
+ - incrementa_indicador(Indicador)
+ - incrementa_indicador(Indicador,Valor)
+ - reduce_indicador(Indicador)
+ - reduce_indicador(Indicador,Valor)
+ - reemplaza_indicador(Indicador,Valor)
+ - cambia_sueño(R)
+ - print_par(Clave,Valor)
+
+## Módulo de gestión de estados
+ 
+Contiene predicados relacionado con las transiciones entre estados, la comprobación de estados posibles desde uno dado, el listado de transiciones, la salida a consola, etc.
+  
+ - actualiza_estados_matutinos(Estado)
+ - actualiza_estados_vespertinos(Estado)
+ - puedo_hacer(Estado)
+ - cambiar(Estado)
+ - hacer(Accion)
+ - listar_transiciones(Estado, VisitadosMatutinos, VisitadosVespertinos)
+ - que_hago(Accion, EstadoAnterior, Estado)
+
+
+# Metodología del desarrollo
+
+Si bien se trata de un sistema muy sencillo, para el desarrollo del mismo se ha buscado inspiración en CommonKADS, 
+una metodología para la construcción de sistemas basados en el conocimiento. Dada su complejidad y extensión no se 
+han usado todos los artefactos, pero sí los que se han considerado como más importantes a la hora de realización de 
+la práctica. Básicamente, se el desarrolo del sistema se ha llevado a cabo de la siguiente forma:
+
+- Definición del sistema a nivel contextual
+- Definición del modelo de conocimiento
+- Implementación en Prolog
+- Documentación y pruebas
 
 
 # Requisitos del sistema
@@ -21,3 +96,9 @@ El sistema deberá contener además:
 - Al menos un ejemplo de uso de uno de los operadores aritméticos o relacionales predefinidos: por ejemplo, en el predicado `cambia_sueño` se utiliza la suma.
 - Al menos un ejemplo de recursividad: por ejemplo, el predicado `control_principal`, que se llama a sí mismo en cada estado o fase del programa hasta que llega al estado final en el que termina el mismo.
 - Al menos un ejemplo de uso de los predicados de inserción y borrado de hechos de la Base de Hechos: por ejemplo, los contadores de puntuaciones (`humor`, `sueño`, etc.). Para actualizarse, primero se retractan y luego vuelven a añadirse como hechos pero con distintos valores.
+
+# Código fuente
+
+# Casos de prueba
+
+# Conclusiones y valoración

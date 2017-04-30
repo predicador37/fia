@@ -1,7 +1,7 @@
 :-dynamic actual/1, contador/2, penalizacion/1, estados_matutinos_visitados/1, estados_vespertinos_visitados/1, 
 transicion/4.
 
-% posibles transiciones entre estados
+%%%%%%%% BASE DE HECHOS: máquina de estados %%%%%%%%%%%%%
 
 % Estados visitables desde dormida
 transicion(despertar, 'despertarla', dormida, despierta).
@@ -88,6 +88,8 @@ actual(dormida).
 estados_matutinos_visitados([]).
 estados_vespertinos_visitados([]).
 
+%%%%%%% MÓDULO DE CONTROL DE PROGRAMA %%%%%%%%%
+
 % bloque de inicialización de hechos necesarios y utilizados a modo de variable.
 inicio :-
   retractall(contador(_, _)),
@@ -151,6 +153,9 @@ condicion_fin(Estado) :-
   retract(actual(Estado)),
   asserta(actual(dormida)),
   write('Has abandonado el juego.').
+
+
+%%%%%% BASE DE CONOCIMIENTO: MÓDULO DE EVENTOS O SUCESOS %%%%%
 
 % el siguiente predicado en todas sus variantes modela los distintos sucesos que acontecen según el estado en el que se encuentra el programa
 
@@ -399,11 +404,12 @@ sucesos(Accion, EstadoAnterior, Estado) :-
     reemplaza_indicador(hambre,10),
     incrementa_indicador(sueño),
     penaliza(10).
-
-	
 sucesos(_, _, _) :-
 	true.
-	
+
+
+%%%%%% BASE DE CONOCIMIENTO: MÓDULO DE INDICADORES Y PENALIZACIÓN %%%%
+
 % comprueba el estado de los indicadores y penaliza el tiempo en consecuencia	
 check_indicadores :-
 	actual(EstadoIndicadores),
@@ -433,21 +439,8 @@ check_humor_pijama :-
 check_pasada_de_vueltas :-
     contador(sueño, Sueño),
     ( Sueño >= 85 -> writeln('Lucía tiene tanto sueño que se ha pasado de vueltas... vas a tardar un rato en dormirla.'), penaliza(15);true).
-	
-actualiza_estados_matutinos(Estado) :-
-    estados_matutinos_visitados(X),
-	append(X, [Estado],Y),
-	retract(estados_matutinos_visitados(X)),
-	asserta(estados_matutinos_visitados(Y)).
-		
-actualiza_estados_vespertinos(Estado) :-
-    estados_vespertinos_visitados(X),
-	append(X, [Estado],Y),
-	retract(estados_vespertinos_visitados(X)),
-	asserta(estados_vespertinos_visitados(Y)).
-	
 
-% calcula la penalización en tiempo cuando la niña se hace pis	
+% calcula la penalización en tiempo cuando la niña se hace pis
 penaliza_pis :-
 	writeln('*** Lucía no se ha podido aguantar más y se ha hecho pis. Como es muy sensible, se ve visiblemente afectada y su humor baja. Naturalmente, hay que lavarla y cambiarla, lo que va a llevar un ratito...'),
 	reduce_indicador(humor,20),
@@ -455,17 +448,17 @@ penaliza_pis :-
 	asserta(contador(piscaca, 10)),
 	penaliza(25).
 
-% calcula la penalización en tiempo cuando la niña tiene mucho hambre	
+% calcula la penalización en tiempo cuando la niña tiene mucho hambre
 penaliza_hambre :-
-	writeln('*** Lucía tiene mucho hambre, lo que hace que se eche a llorar de repente. No te queda más remedio que darle rápidamente algo de comer de lo que tienes por la cocina. Naturalmente, el tiempo pasa...'), 
+	writeln('*** Lucía tiene mucho hambre, lo que hace que se eche a llorar de repente. No te queda más remedio que darle rápidamente algo de comer de lo que tienes por la cocina. Naturalmente, el tiempo pasa...'),
 	reduce_indicador(humor,20),
 	retract(contador(hambre, _)),
 	asserta(contador(hambre, 10)),
 	penaliza(15).
 
-% calcula la penalización en tiempo cuando la niña está de muy mal humor	
+% calcula la penalización en tiempo cuando la niña está de muy mal humor
 penaliza_humor :-
-	writeln('*** Lucía tiene un humor de perros, y aunque no es normal en ella, monta un pollo de cuidado. Tienes que estar un buen rato hablándole y explicándole para que se tranquilice y se preste a colaborar... Ese tiempo era necesario, pero ya no volverá.'), 
+	writeln('*** Lucía tiene un humor de perros, y aunque no es normal en ella, monta un pollo de cuidado. Tienes que estar un buen rato hablándole y explicándole para que se tranquilice y se preste a colaborar... Ese tiempo era necesario, pero ya no volverá.'),
 	retract(contador(humor, _)),
 	asserta(contador(humor, 25)),
 	penaliza(10).
@@ -475,35 +468,35 @@ penaliza(Valor) :-
 	retract(contador(penalizacion, Penalizacion)),
 	NuevaPenalizacion is Penalizacion + Valor,
 	asserta(contador(penalizacion, NuevaPenalizacion)).
-	
+
 
 % realiza un incremento estándar sobre un indicador (10)
 incrementa_indicador(Indicador) :-
 	retract(contador(Indicador, AntiguoValor)),
 	NuevoValor is AntiguoValor + 10,
 	asserta(contador(Indicador, NuevoValor)).
-	
+
 incrementa_indicador(Indicador, Valor) :-
 	retract(contador(Indicador, AntiguoValor)),
 	NuevoValor is AntiguoValor + Valor,
 	asserta(contador(Indicador, NuevoValor)).
 
-% realiza un decremento estándar sobre un indicador (-10)	
+% realiza un decremento estándar sobre un indicador (-10)
 reduce_indicador(Indicador) :-
 	retract(contador(Indicador, AntiguoValor)),
 	NuevoValor is AntiguoValor - 10,
 	asserta(contador(Indicador, NuevoValor)).
-	
-% realiza un decremento especificado sobre un indicador	
+
+% realiza un decremento especificado sobre un indicador
 reduce_indicador(Indicador, Valor) :-
 	retract(contador(Indicador, AntiguoValor)),
 	NuevoValor is AntiguoValor - Valor,
 	asserta(contador(Indicador, NuevoValor)).
-	
+
 reemplaza_indicador(Indicador,Valor) :-
 	retract(contador(Indicador, _)),
 	asserta(contador(Indicador, Valor)).
-	
+
 
 % este predicado modela cómo ha dormido la niña... bien o mal; depende del día
 cambia_sueño(R) :-
@@ -519,7 +512,21 @@ print_par(Clave, Valor) :-
 	tab(2),
     write('- '), write(Clave), write(': '), write(Valor),
     nl.
-    
+
+%%%% BASE DE CONOCIMIENTO: MÓDULO DE GESTIÓN DE ESTADOS
+
+actualiza_estados_matutinos(Estado) :-
+    estados_matutinos_visitados(X),
+	append(X, [Estado],Y),
+	retract(estados_matutinos_visitados(X)),
+	asserta(estados_matutinos_visitados(Y)).
+		
+actualiza_estados_vespertinos(Estado) :-
+    estados_vespertinos_visitados(X),
+	append(X, [Estado],Y),
+	retract(estados_vespertinos_visitados(X)),
+	asserta(estados_vespertinos_visitados(Y)).
+	
 % predicado que comprueba si es posible una transición dada entre estados
 puedo_hacer(Estado):-
   actual(EstadoActual),
