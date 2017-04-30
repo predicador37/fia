@@ -2,10 +2,15 @@
 transicion/4.
 
 % posibles transiciones entre estados
+
+% Estados visitables desde dormida
 transicion(despertar, 'despertarla', dormida, despierta).
 transicion(dejar_mas, 'dejarla dormir un poco más', dormida, remoloneando).
+
+% Estados visitables desde remoloneando
 transicion(despertar, 'despertarla', remoloneando, despierta).
 
+% Estados visitables desde despierta
 transicion(bañar, 'bañarla', despierta, bañandose).
 transicion(hacer_pis, 'llevarla a hacer pis', despierta, aliviandose).
 transicion(desayunar, 'darle el desayuno', despierta, desayunando).
@@ -78,9 +83,10 @@ transicion(contar_cuento, 'contar un cuento antes de dormir', miccionando, imagi
 % Este estado debe poder alcanzarse desde cualquier otro
 transicion(salir, 'salir', _, 'triste porque te vas').
 
-% estado inicial
+% estado inicial y listas de estados visitados
 actual(dormida).
 estados_matutinos_visitados([]).
+estados_vespertinos_visitados([]).
 
 % bloque de inicialización de hechos necesarios y utilizados a modo de variable.
 inicio :-
@@ -104,9 +110,9 @@ inicio :-
 lucia :-
   cambiar(dormida),
   writeln('*** Bienvenido a L.U.C.I.A. , acrónimo recursivo de (Lucía, Única Candidata para Inteligencia Artificial'),
-  writeln('*** En el siguiente simulador, tomarás el rol de papá de una niña maravillosa llamada Lucía.'),
+  writeln('*** En el siguiente simulador, tomarás el rol de papá de una niña maravillosa llamada Lucía. ¿Y por qué no su mamá? Pues por nada en especial; porque este programa está pensado por un papá y ha decidido compartir su experiencia muy personal. No obstante, seas hombre, mujer, papá o mamá, estás invitado a probar este programa y comprobar si te recuerda a algo...),
   writeln('*** La simulación puede tomarse como un juego; el objetivo final es que, al acabar el día, el papá disponga del mayor tiempo posible para estudiar sus asignaturas de la UNED de este cuatrimestre.'),
-  writeln('*** Ello es función, en parte, de una componente aleatoria que depende del día; y en otra parte, de las acciones y decisiones que el papá vaya tomando a lo largo del día'),
+  writeln('*** Ello es función, en parte, de una componente aleatoria que depende del día; y en otra parte, de las acciones y decisiones que el papá vaya tomando a lo largo del día. Estas decisiones afectarán a los distintos indicadores que modeln el estado de la niña (sueño, hambre, etc.). Si los indicadores superan unos umbrales máximos, ten por seguro que perderás mucho tiempo. Pueden ocurrir sucesos curiosos, como que la niña se pase de vueltas y por eso tarde más en dormirse...'),
   writeln('*** Se ha pretendido que la simulación sea lo más real posible dentro de lo razonable. ¡Prueba suerte y disfruta!'),
   actual(Estado),
   que_hago(Accion, Estado, Estado),
