@@ -1,4 +1,4 @@
-:-dynamic actual/1, contador/2, penalizacion/1, estados_matutinos_visitados/1, estados_vespertinos_visitados/1, 
+:-dynamic actual/1, contador/2, penalizacion/1, estados_visitados/2,
 transicion/4.
 
 %%%%%%%% BASE DE HECHOS: máquina de estados %%%%%%%%%%%%%
@@ -85,18 +85,17 @@ transicion(salir, 'salir', _, 'triste porque te vas').
 
 % estado inicial y listas de estados visitados
 actual(dormida).
-estados_matutinos_visitados([]).
-estados_vespertinos_visitados([]).
+estados_matutinos(matutinos, []).
+estados_vespertinos(vespertinos, []).
 
 %%%%%%% MÓDULO DE CONTROL DE PROGRAMA %%%%%%%%%
 
 % bloque de inicialización de hechos necesarios y utilizados a modo de variable.
 inicio :-
   retractall(contador(_, _)),
-  retractall(estados_matutinos_visitados([])),
-  asserta(estados_matutinos_visitados([])),
-  retractall(estados_vespertinos_visitados([])),
-  asserta(estados_vespertinos_visitados([])),
+  retractall(estados_visitados(_,[])),
+  asserta(estados_visitados(matutinos,[])),
+  asserta(estados_visitados(vespertinos,[])),
   retractall(transicion(ir_cole, _, _, _)),
   retractall(transicion(a_dormir, _, _, _)),
   Humor is random(100),
@@ -111,8 +110,21 @@ inicio :-
 
 lucia :-
   cambiar(dormida),
+
+
+  writeln(' ▄               ▄         ▄     ▄▄▄▄▄▄▄▄▄▄▄     ▄▄▄▄▄▄▄▄▄▄▄     ▄▄▄▄▄▄▄▄▄▄▄'),
+  writeln('▐░▌             ▐░▌       ▐░▌   ▐░░░░░░░░░░░▌   ▐░░░░░░░░░░░▌   ▐░░░░░░░░░░░▌'),
+  writeln('▐░▌             ▐░▌       ▐░▌   ▐░█▀▀▀▀▀▀▀▀▀     ▀▀▀▀█░█▀▀▀▀    ▐░█▀▀▀▀▀▀▀█░▌'),
+  writeln('▐░▌             ▐░▌       ▐░▌   ▐░▌                  ▐░▌        ▐░▌       ▐░▌'),
+  writeln('▐░▌             ▐░▌       ▐░▌   ▐░▌                  ▐░▌        ▐░█▄▄▄▄▄▄▄█░▌'),
+  writeln('▐░▌             ▐░▌       ▐░▌   ▐░▌                  ▐░▌        ▐░░░░░░░░░░░▌'),
+  writeln('▐░▌             ▐░▌       ▐░▌   ▐░▌                  ▐░▌        ▐░█▀▀▀▀▀▀▀█░▌'),
+  writeln('▐░▌             ▐░▌       ▐░▌   ▐░▌                  ▐░▌        ▐░▌       ▐░▌'),
+  writeln('▐░█▄▄▄▄▄▄▄▄▄  ▄ ▐░█▄▄▄▄▄▄▄█░▌ ▄ ▐░█▄▄▄▄▄▄▄▄▄  ▄  ▄▄▄▄█░█▄▄▄▄  ▄ ▐░▌       ▐░▌ ▄'),
+  writeln('▐░░░░░░░░░░░▌▐░▌▐░░░░░░░░░░░▌▐░▌▐░░░░░░░░░░░▌▐░▌▐░░░░░░░░░░░▌▐░▌▐░▌       ▐░▌▐░▌'),
+  writeln('▀▀▀▀▀▀▀▀▀▀▀  ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀  ▀         ▀  ▀ '),
   writeln('*** Bienvenido a L.U.C.I.A. , acrónimo recursivo de (Lucía, Única Candidata para Inteligencia Artificial'),
-  writeln('*** En el siguiente simulador, tomarás el rol de papá de una niña maravillosa llamada Lucía. ¿Y por qué no su mamá? Pues por nada en especial; porque este programa está pensado por un papá y ha decidido compartir su experiencia muy personal. No obstante, seas hombre, mujer, papá o mamá, estás invitado a probar este programa y comprobar si te recuerda a algo...),
+  writeln('*** En el siguiente simulador, tomarás el rol de papá de una niña maravillosa llamada Lucía. ¿Y por qué no su mamá? Pues por nada en especial; porque este programa está pensado por un papá y ha decidido compartir su experiencia muy personal. No obstante, seas hombre, mujer, papá o mamá, estás invitado a probar este programa y comprobar si te recuerda a algo...'),
   writeln('*** La simulación puede tomarse como un juego; el objetivo final es que, al acabar el día, el papá disponga del mayor tiempo posible para estudiar sus asignaturas de la UNED de este cuatrimestre.'),
   writeln('*** Ello es función, en parte, de una componente aleatoria que depende del día; y en otra parte, de las acciones y decisiones que el papá vaya tomando a lo largo del día. Estas decisiones afectarán a los distintos indicadores que modeln el estado de la niña (sueño, hambre, etc.). Si los indicadores superan unos umbrales máximos, ten por seguro que perderás mucho tiempo. Pueden ocurrir sucesos curiosos, como que la niña se pase de vueltas y por eso tarde más en dormirse...'),
   writeln('*** Se ha pretendido que la simulación sea lo más real posible dentro de lo razonable. ¡Prueba suerte y disfruta!'),
@@ -182,7 +194,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: - Muy bien, papá!!'),
 	writeln('papá: - Corre, que vamos tarde...'),
 	writeln('*** El humor de la niña mejora ligeramente por dejarla remolonear, pero ahora tienes menos tiempo para prepararla...'),
-	incrementa_indicador(humor),
+	incrementa_indicador(10, humor),
 	penaliza(5).
 
 % SUCESOS JUGANDO EN SALON
@@ -193,11 +205,11 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: - Cinco minutos, papá.'),
 	writeln('papá: - Pero nada más, que vamos tarde...'),
 	writeln('*** El humor de la niña mejora, pero sube todo lo demás... ahora tiene más hambre y ganas de hacer pis. ¡¡Cuidado!!'),
-	actualiza_estados_matutinos(Estado),
+	actualiza_estados(matutinos,Estado),
 	penaliza(5),
 	% El siguiente snippet incrementa en 10 todos los indicadores
-	findall(Indicador, (contador(Indicador, _),Indicador \= sueño), Suben),
-	maplist(incrementa_indicador,Suben).
+	findall(Indicador, (contador(Indicador, _),(Indicador \= sueño, Indicador \= penalizacion)), Suben),
+	maplist(incrementa_indicador(10),Suben).
 
 % SUCESOS DESAYUNANDO
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -207,9 +219,9 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('papá: - Vale; pero te tomas toda la leche, ¿eh?'),
 	writeln('nena: - Vale, papá.'),
 	writeln('*** A la niña se le quita el hambre, pero tarda mucho en desayunar...'),
-	actualiza_estados_matutinos(Estado),
-	reduce_indicador(hambre),
-	incrementa_indicador(piscaca),
+	actualiza_estados(matutinos, Estado),
+	reduce_indicador(20, hambre),
+	incrementa_indicador(10, piscaca),
 	penaliza(10).
 
 % SUCESOS HACIENDO PIS
@@ -220,10 +232,10 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('*** Pones a Lucía en el reductor para el W.C. con motivos decorativos de Peppa Pig, y allí hace pis muy feliz. Le gusta mucho Peppa Pig; no en vano, el reductor ha costado 15€ frente a los 5 que cuesta uno, no sé, simplemente, azul.'),
 	writeln('papá: - Muy bien, mi niña. ¡A limpiar!'),
 	writeln('*** Limpias bien a la niña y le ayudas a bajarse del sanitario (o como se conoce en Cantabria, la baza)'),
-	actualiza_estados_matutinos(Estado),
+	actualiza_estados(matutinos, Estado),
 	reemplaza_indicador(piscaca,5),
-	incrementa_indicador(humor),
-	incrementa_indicador(hambre).
+	incrementa_indicador(10, humor),
+	incrementa_indicador(10, hambre).
 	
 % SUCESOS BAÑANDOSE
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -236,11 +248,11 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('*** Después de bañarla, la vistes rápidamente con ropa que le gusta y le secas el pelo.'),
 	writeln('nena: - ¡E muy bonita la camiseta de la biciceta, papá!'),
 	writeln('papá: - Claro que sí. Venga, te peino y verás qué guapa.'),
-	actualiza_estados_matutinos(Estado),
+	actualiza_estados(matutinos, Estado),
 	penaliza(15),
-	incrementa_indicador(piscaca),
-	incrementa_indicador(humor),
-	incrementa_indicador(hambre).
+	incrementa_indicador(10, piscaca),
+	incrementa_indicador(10, humor),
+	incrementa_indicador(10, hambre).
 	
 % SUCESOS LISTA PARA IR AL COLE
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -248,7 +260,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: - Papaaaa.'),
 	writeln('papá: - Dime, hija.'),
 	writeln('nena: - ¿Puedo llevar un muñeco al cole?'),
-	actualiza_estados_matutinos(Estado).
+	actualiza_estados(matutinos, Estado).
 	
 % SUCESOS YENDO AL COLE CON MUÑECO Y SALIENDO DEL COLE
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -264,7 +276,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('*** Hay un pequeño rato de conversación en el coche hasta llegar a casa, donde la pones dibujos antes de irte a comer.'),
 	writeln('*** No, poner dibujos NO ES OPCIONAL.'),
 	writeln('papá: - ¡¡¿¿Qué tal, mi niña??!!'),
-	incrementa_indicador(humor),
+	incrementa_indicador(10, humor),
 	random(30, 50, Hambre),
 	random(30, 50, Sueño),
 	random(30, 50, Piscaca),
@@ -287,7 +299,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('*** Hay un pequeño rato de conversación en el coche hasta llegar a casa, donde la pones dibujos antes de irte a comer.'),
 	writeln('*** No, poner dibujos NO ES OPCIONAL.'),
 	writeln('papá: - ¡¡¿¿Qué tal, mi niña??!!'),
-	reduce_indicador(humor),
+	reduce_indicador(10, humor),
 	random(30, 50, Hambre),
 	random(30, 50, Sueño),
 	random(30, 50, Piscaca),
@@ -304,9 +316,9 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('papá: - Vale, venga, y te montas un viaje.'),
 	writeln('nena: - ¡Bieeeeen! Yo quiero el caballito rosa...'),
 	writeln('*** Lucía corretea, baja por el tobogán, se lo pasa bomba...'), 
-	incrementa_indicador(humor,20),
-	incrementa_indicador(sueño,15),
-	incrementa_indicador(hambre).
+	incrementa_indicador(20, humor),
+	incrementa_indicador(15, sueño),
+	incrementa_indicador(10, hambre).
 	
 % SUCESOS EN CASA
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -314,9 +326,9 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('papá: - Venga, hoy nos quedamos en casa. ¿Jugamos a los bloques?'),
 	writeln('nena: - Vale, papá.'),
 	writeln('*** Lucía corretea por el parque, baja por el tobogán, juega con otros niños, se monta en los caballitos....¡se lo pasa bomba!'), 
-	incrementa_indicador(humor),
-	incrementa_indicador(sueño,5),
-	incrementa_indicador(hambre).
+	incrementa_indicador(10, humor),
+	incrementa_indicador(5, sueño),
+	incrementa_indicador(10, hambre).
 
 % SUCESOS EN EL SUPERMERCADO
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -329,9 +341,9 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: - ¡Bieeeen! Lo hago yo, papá.'),
 	writeln('papá: - Vale.'),
 	writeln('*** Hacéis la compra y mientras tanto, Lucía te pide un poco de pan. Dar vueltas por el súper no deja de pioneser cansado... '),
-	incrementa_indicador(humor),
-	reduce_indicador(hambre, 5),
-	incrementa_indicador(sueño),
+	incrementa_indicador(10, humor),
+	reduce_indicador(10, hambre),
+	incrementa_indicador(10, sueño),
 	penaliza(15).
 	
 % SUCESOS JUGANDO A LOS BLOQUES
@@ -340,8 +352,8 @@ sucesos(Accion, EstadoAnterior, Estado) :-
     writeln('papá: -¿Jugamos a los bloques?'),
     writeln('nena: - Vale, vamos a hacer un castillo muuuuuy aaaalto.'),
     writeln('*** A Lucía le gusta jugar a los bloques con su papá. No es una actividad que consuma mucha energía...'),
-    incrementa_indicador(humor),
-    incrementa_indicador(sueño,5).
+    incrementa_indicador(10, humor),
+    incrementa_indicador(5, sueño).
     
 % SUCESOS JUGANDO A LAS COCINITAS
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -352,8 +364,8 @@ sucesos(Accion, EstadoAnterior, Estado) :-
     writeln('papá: - Tortilla de patata.'),
     writeln('nena: - Vale.'),
     writeln('*** Lucía usa su cocinita para prepara concienzudamente la comanda. Después, se entretiene ella solita un rato... rato que pierde de otras cosas.'),
-    incrementa_indicador(humor,5),
-    incrementa_indicador(sueño,5),
+    incrementa_indicador(5, humor),
+    incrementa_indicador(5, sueño),
     penaliza(10).
     
 % SUCESOS PONIENDO EL PIJAMA
@@ -373,9 +385,9 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: - ¡El de los tres cerditos!'),
 	writeln('papá: - Érase una vez una mamá cerda que vivía con sus tres cerditos. Entonces, un día...'),
 	writeln('*** A Lucía le encantan los cuentos. Le gustan más que a Bella, la de la Bella y la Bestia (lo sabes porque has tenido que leérselo varias veces). Ya te sabes unos cuántos de memoria, el saber ocupa lugar... A la niña esto le encanta y le ayuda a relajarse antes de dormir.'),
-	actualiza_estados_vespertinos(Estado),
-	incrementa_indicador(humor,5),
-	incrementa_indicador(sueño,5),
+	actualiza_estados(vespertinos, Estado),
+	incrementa_indicador(5, humor),
+	incrementa_indicador(5, sueño),
 	penaliza(10).
 
 % SUCESOS HACIENDO PIS POR LA NOCHE
@@ -388,7 +400,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('papá: - ¡Qué bien!'),
 	writeln('*** Cielos... ¡qué pestazo! Tu tono de vez diciendo "qué bien" lo dice todo.'),
 	writeln('*** LImpias bien a la niña, le subes el pijama y le ayudas a tirar de la cadena. Dejas el extractor puesto... tan pequeña y tan matona.'),
-	actualiza_estados_vespertinos(Estado),
+	actualiza_estados(vespertinos, Estado),
 	reemplaza_indicador(piscaca,5),
 	penaliza(5).
 
@@ -400,9 +412,9 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: ¡Mira, papá! Me lo he comido todo, todo, todo.'),
 	writeln('papá: Pero qué contento se pone papá. Eres una campeona... ¡choca!'),
 	writeln('*** Lucía se lo come todo, pero ha tardado un ratito...'),
-	actualiza_estados_vespertinos(Estado),
+	actualiza_estados(vespertinos, Estado),
     reemplaza_indicador(hambre,10),
-    incrementa_indicador(sueño),
+    incrementa_indicador(10, sueño),
     penaliza(10).
 sucesos(_, _, _) :-
 	true.
@@ -443,7 +455,7 @@ check_pasada_de_vueltas :-
 % calcula la penalización en tiempo cuando la niña se hace pis
 penaliza_pis :-
 	writeln('*** Lucía no se ha podido aguantar más y se ha hecho pis. Como es muy sensible, se ve visiblemente afectada y su humor baja. Naturalmente, hay que lavarla y cambiarla, lo que va a llevar un ratito...'),
-	reduce_indicador(humor,20),
+	reduce_indicador(20, humor),
 	retract(contador(piscaca, _)),
 	asserta(contador(piscaca, 10)),
 	penaliza(25).
@@ -451,7 +463,7 @@ penaliza_pis :-
 % calcula la penalización en tiempo cuando la niña tiene mucho hambre
 penaliza_hambre :-
 	writeln('*** Lucía tiene mucho hambre, lo que hace que se eche a llorar de repente. No te queda más remedio que darle rápidamente algo de comer de lo que tienes por la cocina. Naturalmente, el tiempo pasa...'),
-	reduce_indicador(humor,20),
+	reduce_indicador(20, humor),
 	retract(contador(hambre, _)),
 	asserta(contador(hambre, 10)),
 	penaliza(15).
@@ -463,36 +475,26 @@ penaliza_humor :-
 	asserta(contador(humor, 25)),
 	penaliza(10).
 
+% aumenta la penalización por tiempo en Valor
 penaliza(Valor) :-
 	contador(penalizacion,Penalizacion),
 	retract(contador(penalizacion, Penalizacion)),
 	NuevaPenalizacion is Penalizacion + Valor,
 	asserta(contador(penalizacion, NuevaPenalizacion)).
 
-
-% realiza un incremento estándar sobre un indicador (10)
-incrementa_indicador(Indicador) :-
-	retract(contador(Indicador, AntiguoValor)),
-	NuevoValor is AntiguoValor + 10,
-	asserta(contador(Indicador, NuevoValor)).
-
-incrementa_indicador(Indicador, Valor) :-
+% realiza un incremento especificado sobre un indicador
+incrementa_indicador(Valor, Indicador) :-
 	retract(contador(Indicador, AntiguoValor)),
 	NuevoValor is AntiguoValor + Valor,
 	asserta(contador(Indicador, NuevoValor)).
 
-% realiza un decremento estándar sobre un indicador (-10)
-reduce_indicador(Indicador) :-
-	retract(contador(Indicador, AntiguoValor)),
-	NuevoValor is AntiguoValor - 10,
-	asserta(contador(Indicador, NuevoValor)).
-
 % realiza un decremento especificado sobre un indicador
-reduce_indicador(Indicador, Valor) :-
+reduce_indicador(Valor, Indicador) :-
 	retract(contador(Indicador, AntiguoValor)),
 	NuevoValor is AntiguoValor - Valor,
 	asserta(contador(Indicador, NuevoValor)).
 
+% reemplaza el valor de un indicador por el proporcionado
 reemplaza_indicador(Indicador,Valor) :-
 	retract(contador(Indicador, _)),
 	asserta(contador(Indicador, Valor)).
@@ -502,7 +504,7 @@ reemplaza_indicador(Indicador,Valor) :-
 cambia_sueño(R) :-
 	R == 0,
 	writeln('nena: - Déjameeeeee'),
-	incrementa_indicador(sueño).
+	incrementa_indicador(10, sueño).
 cambia_sueño(R) :-
 	R == 1,
 	writeln('nena: - Muy bien, papá!!').
@@ -515,17 +517,14 @@ print_par(Clave, Valor) :-
 
 %%%% BASE DE CONOCIMIENTO: MÓDULO DE GESTIÓN DE ESTADOS
 
-actualiza_estados_matutinos(Estado) :-
-    estados_matutinos_visitados(X),
+% TODO: refactoring; fusionar en uno
+% añade a la lista de estados visitados por la mañana un estado dado
+
+actualiza_estados(Lista, Estado) :-
+    estados_visitados(Lista, X),
 	append(X, [Estado],Y),
-	retract(estados_matutinos_visitados(X)),
-	asserta(estados_matutinos_visitados(Y)).
-		
-actualiza_estados_vespertinos(Estado) :-
-    estados_vespertinos_visitados(X),
-	append(X, [Estado],Y),
-	retract(estados_vespertinos_visitados(X)),
-	asserta(estados_vespertinos_visitados(Y)).
+	retract(estados_visitados(Lista,X)),
+	asserta(estados_visitados(Lista,Y)).
 	
 % predicado que comprueba si es posible una transición dada entre estados
 puedo_hacer(Estado):-
@@ -565,9 +564,9 @@ que_hago(Accion, EstadoAnterior, Estado) :-
   sucesos(Accion, EstadoAnterior, Estado),
   % lista los indicadores que determinan cómo se encuentra la niña, junto con sus valores
   lista_indicadores,
-  estados_matutinos_visitados(VisitadosMatutinos),
+  estados_visitados(matutinos,VisitadosMatutinos),
   ( length(VisitadosMatutinos,4) -> asserta(transicion('ir_cole', 'vamos al cole ya', Estado, lista));true),
-  estados_vespertinos_visitados(VisitadosVespertinos),
+  estados_visitados(vespertinos,VisitadosVespertinos),
   ( length(VisitadosVespertinos,3) -> asserta(transicion('a_dormir', 'vamos a dormir', Estado, soñando));true),
   writeln('¿Qué hacemos ahora? (introduzca un comando seguido de punto . )'),
   % lista las transiciones disponibles desde ese estado, teniendo en cuenta los ya visitados en el caso de los matutinos para reducir el árbol de estados
