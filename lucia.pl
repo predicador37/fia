@@ -66,14 +66,14 @@ transicion(poner_pijama, 'poner el pijama', cocinando, empijamada).
 % Estados visitables desde empijamada
 transicion(cenar, 'cenar', empijamada, cenando).
 transicion(contar_cuento, 'contar un cuento antes de dormir', empijamada, imaginando).
-transicion(hacer_pis, 'llevarla a hacer pis', empijamada, miccionando).
+transicion(hacer_caca, 'llevarla a hacer pis y caca', empijamada, miccionando).
 
 % Estados visitables desde cenando
 transicion(contar_cuento, 'contar un cuento antes de dormir', cenando, imaginando).
-transicion(hacer_pis, 'llevarla a hacer pis', cenando, miccionando).
+transicion(hacer_caca, 'llevarla a hacer pis y caca', cenando, miccionando).
 
 % Estados visitables desde imaginando
-transicion(hacer_pis, 'llevarla a hacer pis', imaginando, miccionando).
+transicion(hacer_caca, 'llevarla a hacer pis y caca', imaginando, miccionando).
 transicion(cenar, 'cenar', imaginando, cenando).
 
 % Estados visitables desde miccionando
@@ -129,7 +129,7 @@ lucia :-
   writeln('*** Ello es función, en parte, de una componente aleatoria que depende del día; y en otra parte, de las acciones y decisiones que el papá vaya tomando a lo largo del día. Estas decisiones afectarán a los distintos indicadores que modeln el estado de la niña (sueño, hambre, etc.). Si los indicadores superan unos umbrales máximos, ten por seguro que perderás mucho tiempo. Pueden ocurrir sucesos curiosos, como que la niña se pase de vueltas y por eso tarde más en dormirse...'),
   writeln('*** Se ha pretendido que la simulación sea lo más real posible dentro de lo razonable. ¡Prueba suerte y disfruta!'),
   actual(Estado),
-  que_hago(Accion, Estado, Estado),
+  que_hago(_, Estado, Estado),
   control_principal(Estado).
 
 % predicado con llamada recursiva para implementar el menú y control principal del programa
@@ -250,9 +250,8 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('papá: - Claro que sí. Venga, te peino y verás qué guapa.'),
 	actualiza_estados(matutinos, Estado),
 	penaliza(15),
-	incrementa_indicador(10, piscaca),
-	incrementa_indicador(10, humor),
-	incrementa_indicador(10, hambre).
+	findall(Indicador, (contador(Indicador, _),(Indicador \= sueño, Indicador \= penalizacion)), Suben),
+    maplist(incrementa_indicador(10),Suben).
 	
 % SUCESOS LISTA PARA IR AL COLE
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -517,7 +516,6 @@ print_par(Clave, Valor) :-
 
 %%%% BASE DE CONOCIMIENTO: MÓDULO DE GESTIÓN DE ESTADOS
 
-% TODO: refactoring; fusionar en uno
 % añade a la lista de estados visitados por la mañana un estado dado
 
 actualiza_estados(Lista, Estado) :-
@@ -539,12 +537,13 @@ cambiar(Estado) :-
   retract(actual(_)),
   asserta(actual(Estado)).
     
-% predicado que modela una transición de un estado a otro, comprobando los indicadores vitales de la niña nada más realizar el cambio    
+% predicado que modela una transición de un estado a otro
 hacer(Accion):-
 	transicion(Accion, _, _, Estado),
 	puedo_hacer(Estado),
 	cambiar(Estado).
-	
+
+
 lista_transiciones(Estado, VisitadosMatutinos, VisitadosVespertinos) :-
 	writeln('---------------------------------------------------------------------------------------------------------------------------'),
 	forall((transicion(Accion, Descripcion, Estado, EstadoDestino), \+ member(EstadoDestino, VisitadosMatutinos), \+ member(EstadoDestino, VisitadosVespertinos)), print_par(Accion,Descripcion)),
@@ -556,7 +555,7 @@ lista_indicadores :-
 	writeln('===========================================================================================================================').
 	
 
-% indica en que estado se encuentra la ninya y que se puede hacer
+% indica en que estado se encuentra la niña y que se puede hacer
 que_hago(Accion, EstadoAnterior, Estado) :-
   writeln('.................................'),	
   write('Lucía está '), write(Estado), nl,
