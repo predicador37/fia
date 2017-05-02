@@ -1,3 +1,7 @@
+% Fundamentos de Inteligencia Artificial
+% Actividad obligatoria II: Construcción en Prolog de un Sistema Basado en Reglas Básico 
+% Miguel Expósito Martín - 72056097H
+
 # Descripción del conocimiento del dominio
 
 El tema elegido, contextualizado dentro de *"la familia"* (propuesto por el equipo docente), sería *"los hijos"* 
@@ -13,6 +17,8 @@ El objetivo es tratar de minimizar la penalización por tiempo requerido por la 
 Se modela la personalidad de la niña como una sencilla máquina  de estados (ojalá fuera así de sencilla la realidad; aquí se trata de un modelo simplificado). Además, a lo largo del paso por todos los estados se dispone de una serie de indicadores vitales básicos (a saber: humor, hambre, sueño y ganas de hacer pis). Las transiciones entre estados se corresponden con las posibles acciones que puede realizar el padre, introducidas a través del teclado. Las distintas acciones posibles implican distintas penalizaciones y reducciones o incrementos de los valores de los indicadores. Si se sobrepasan ciertos umbrales de los indicadores, es muy posible que las consecuencias para el objetivo del juego sean nefastas (por ejemplo, que la niña se haga pis encima supondrá una penalización por tiempo considerable).
 
 Podría plantearse que ciertas consideraciones no son realistas; por ejemplo, ¿qué importancia puede tener que la niña se haga pis por la mañana de cara a que se vaya a dormir pronto? En el fondo se trata tan sólo de una excusa para que el juego funcione, no habiéndose considerado necesario llegar hasta esos extremos de realismo.
+
+La simulación es autoexplicativa, por lo que no se incluyen más instrucciones explícitas que las de la introducción de comandos por el teclado. Si bien determinadas acciones pueden tener resultados imprevisibles a priori (como, por ejemplo, que si la niña tiene mucho sueño por la noche tarde más en dormirse, curiosamente), estos no dejan de formar parte de la vida real y se aprenden así: viviéndolo. Por tanto, con un poco de sentido común y un par de ejecuciones de la simulación es posible llegar a obtener unos resultados razonables (aunque hay factores aleatorios que escapan a las posibilidades de acción de los padres).
  
  A continuación se incluye un grafo representando el diagrama de estados que forma la práctica totalidad de la base de hechos, con estado inicial `dormida` y estado final `soñando`:
  
@@ -29,51 +35,64 @@ Podría plantearse que ciertas consideraciones no son realistas; por ejemplo, ¿
  Los contadores no han sido acotados superior ni inferiormente puesto que se considera no aporta demasiado al realismo del modelo (estará prácticamente igual de contenta con 100 que con 120; no es significativo). 
  
 Antes de la ejecución del bucle principal del programa, se retractan e inicializan todas las variables relevantes para evitar conflictos con simulaciones anteriores.
+
+\pagebreak
   
 # Descripción de la estructura de base de reglas
  
 Con respecto a la base de conocimiento, se dispone de los siguientes bloques de predicados a modo de reglas: 
+
+## Módulo de inicialización
+
+Contiene predicados que se encargan de inicializar determinados aspectos de la base de hechos y de presentar el programa:
+
+- `inicio`: retracta posibles hechos de simulaciones anteriores que pudieran interferir con la actual y los inicializa aleatoriamente.
+- `lucia`: muestra por consola la presentación del programa y carga el control principal del programa.
  
-## Módulo de control del programa:
+## Módulo de control del programa
 
 Contiene predicados que se encargan de gestionar la entrada de acciones por el teclado, la ejecución de las mismas y la comprobación del estado de los indicadores básicos.
 
-- control_principal: predicado recursivo que se encarga de pedir la entrada al usuario, comprobar las indicadores y ejecutar las acciones correspondientes.
-- condicion_fin: condiciones de fin para el predicado recursivo (fin de juego o salida explícita).
+- `control_principal(EstadoAnterior)`: predicado recursivo que se encarga de pedir la entrada al usuario, comprobar las indicadores y ejecutar las acciones correspondientes.
+- `condicion_fin(Estado)`: condiciones de fin para el predicado recursivo (fin de juego o salida explícita).
 
-## Módulo de eventos o sucesos:
+## Módulo de eventos o sucesos
 Determina lo que ocurre en cada estado al que se transiciona. Actualiza los indicadores y la penalización en consecuencia.
- - sucesos(Accion, EstadoAnterior, Estado): presenta una serie de acciones y comprobaciones que se llevan a cabo por cada uno de los estados a los que se transiciona.
+ - `sucesos(Accion, EstadoAnterior, Estado)`: presenta una serie de acciones y comprobaciones que se llevan a cabo por cada uno de los estados a los que se transiciona.
  
  
-## Módulo de indicadores y penalización:
+## Módulo de indicadores y penalización
  
 Contiene toda una serie de predicados que modifican y/o listan los indicadores y la penalización por tiempo.
  
- - check_indicadores: comprueba los valores de los indicadores y aplica las penalizaciones si estos sobrepasan una serie de umbrales.
- - check_humor: comprobador específico del indicador humor a la salida del colegio.
- - check_humor_pijama: comprobador específico del indicador humor antes de poner el pijama.
- - check_pasada_de_vueltas: comprobador específico del indicador sueño antes de ir a dormir.
- - penaliza_pis: penalización por tiempo cuando el indicador del pis supera el valor 80.
- - penaliza_hambre: penalización por tiempo cuando el indicador de hambre supera el valor 80.
- - penaliza_humor: penalización por tiempo cuando el indicador de humor no llega a 30.
- - penaliza(Valor): aumenta el contador de penalización en un valor.
- - incrementa_indicador(Valor,Indicador): incrementa el valor de un indicador en el valor proporcionado.
- - reduce_indicador(Indicador,Valor): reduce el valor de un indicador en el valor proporcionado.
- - reemplaza_indicador(Indicador,Valor): reemplaza el valor de un indicador por el valor proporcionado.
- - cambia_sueño(R): aleatoriamente decide si la niña ha dormido bien o no, ajustando el indicador de sueño en consecuencia.
- - print_par(Clave,Valor): predicado genérico que permite escribir a consola un par clave-valor. Útil para listar los estados posibles y los indicadores.
+ - `check_indicadores`: comprueba los valores de los indicadores y aplica las penalizaciones si estos sobrepasan una serie de umbrales.
+ - `check_humor`: comprobador específico del indicador humor a la salida del colegio.
+ - `check_humor_pijama`: comprobador específico del indicador humor antes de poner el pijama, pudiendo darse una penalización.
+ - `check_pasada_de_vueltas`: comprobador específico del indicador sueño antes de ir a dormir.
+ - `penaliza_pis`: penalización por tiempo cuando el indicador del pis supera el valor 80.
+ - `penaliza_hambre`: penalización por tiempo cuando el indicador de hambre supera el valor 80.
+ - `penaliza_humor`: penalización por tiempo cuando el indicador de humor no llega a 30.
+ - `penaliza(Valor)`: aumenta el contador de penalización en un valor.
+ - `incrementa_indicador(Valor,Indicador)`: incrementa el valor de un indicador en el valor proporcionado.
+ - `reduce_indicador(Valor, Indicador)`: reduce el valor de un indicador en el valor proporcionado.
+ - `reemplaza_indicador(Valor, Indicador)`: reemplaza el valor de un indicador por el valor proporcionado.
+ - `cambia_sueño(R)`: aleatoriamente decide si la niña ha dormido bien o no, ajustando el indicador de sueño en consecuencia.
+ - `print_par(Clave,Valor)`: predicado genérico que permite escribir a consola un par clave-valor. Útil para listar los estados posibles y los indicadores.
+
+\pagebreak
 
 ## Módulo de gestión de estados
  
 Contiene predicados relacionado con las transiciones entre estados, la comprobación de estados posibles desde uno dado, el listado de transiciones, la salida a consola, etc.
   
- - actualiza_estados(Lista,Estado): añade un estado determinado a una lista de estados visitados (matutinos o vespertinos en función del momento del día en que se recorran).
- - puedo_hacer(Estado): comprueba si es válida la transición de un estado a otro.
- - cambiar(Estado): modifica el estado actual por uno dado.
- - hacer(Accion): modela la transición de un estado a otro, comprobando previamente su validez.
- - listar_transiciones(Estado, VisitadosMatutinos, VisitadosVespertinos): muestra en la consola la lista de acciones o transiciones posibles desde el estado actual.
- - que_hago(Accion, EstadoAnterior, Estado): indica en qué estado se encuentra la niña y muestra los valores de los indicadores básicos en el estado actual, así como las transiciones posibles desde dicho estado.
+ - `actualiza_estados(Lista,Estado)`: añade un estado determinado a una lista de estados visitados (matutinos o vespertinos en función del momento del día en que se recorran).
+ - `puedo_hacer(Estado)`: comprueba si es válida la transición de un estado a otro.
+ - `cambiar(Estado)`: modifica el estado actual por uno dado.
+ - `hacer(Accion)`: modela la transición de un estado a otro, comprobando previamente su validez.
+ - `listar_transiciones(Estado, VisitadosMatutinos, VisitadosVespertinos)`: muestra en la consola la lista de acciones o transiciones posibles desde el estado actual.
+ - `que_hago(Accion, EstadoAnterior, Estado)`: indica en qué estado se encuentra la niña y muestra los valores de los indicadores básicos en el estado actual, así como las transiciones posibles desde dicho estado.
+
+\pagebreak
 
 # Metodología del desarrollo
 
@@ -102,6 +121,7 @@ Para la implementación en Prolog se han utilizado los recursos proporcionados p
 
 Paralelamente al desarrollo de la práctica se han ido documentando los requisitos cumplidos y realizando pruebas de la funcionalidad implementada. Dado el alcance limitado de los casos de prueba, no se ha considerado necesario automatizarlos, sino que se han realizado manualmente con la consola del intérprete.
 
+\pagebreak
 
 # Requisitos del sistema
 
@@ -109,13 +129,13 @@ Por cada uno de los miembros del grupo de trabajo en el sistema se habrán de de
 
 - 2 o más constantes: una constante puede ser un átomo o un número. En el programa hay definidas varias constantes: `dormida`, `despierta`, `hecho_pis`, etc. 
 - 2 o más hechos con variables: también hay varios; `transicion('salir', 'salir', Estado, fin).`, `actual(NuevoEstado)`, etc.
-- 2 o más hechos sin variables: por ejemplo, todas las transiciones; `transicion('despertar', 'despertarla', dormida, despierta).`, `transicion('banyar', 'dejarla dormir un poco más', dormida, despierta).`
+- 2 o más hechos sin variables: por ejemplo, todas las transiciones; `transicion('despertar', 'despertarla', dormida, despierta).`, `transicion('bañar', 'dejarla dormir un poco más', dormida, despierta).`
 - 5 o más predicados: por ejemplo, `check_indicadores`, `sucesos`, `hacer`, `que_hago`, `condicion_fin`.
 
 Y deberán verificarse las siguientes condiciones:
 
-- al menos uno de los predicados habrá de definirse mediante 2 o más reglas: por ejemplo, el predicado `control_principal(Estado)`.
-- al menos uno de los predicados deberá tener 2 o más argumentos: como por ejemplo, `que_hago(EstadoAnterior, Estado)`.
+- Al menos uno de los predicados habrá de definirse mediante 2 o más reglas: por ejemplo, el predicado `control_principal(Estado)` se define mediante dos reglas.
+- Al menos uno de los predicados deberá tener 2 o más argumentos: como por ejemplo, `que_hago(EstadoAnterior, Estado)`.
 - 2 o más reglas deberán constar de 2 o más antecedentes: por ejemplo, la regla cuya cabeza es el predicado `lucia` o la regla cuya cabeza es el predicado `cambia_sueño`.
 - la satisfacción de 2 o más objetivos habrá de requerir el encadenamiento de 2 o más reglas: por ejemplo, los objetivos `que_hago(EstadoAnterior,NuevoEstado)` y `control_principal(NuevoEstado)` del predicado `control_principal`.
 
@@ -125,7 +145,11 @@ El sistema deberá contener además:
 - Al menos un ejemplo de recursividad: por ejemplo, el predicado `control_principal`, que se llama a sí mismo en cada estado o fase del programa hasta que llega al estado final en el que termina la recursividad.
 - Al menos un ejemplo de uso de los predicados de inserción y borrado de hechos de la Base de Hechos: por ejemplo, los contadores de puntuaciones (`contador(humor,X)`, `contador(sueño,X)`, etc.). Para actualizarse, primero se retractan y luego vuelven a añadirse como hechos pero con distintos valores.
 
+\pagebreak
+
 # Código fuente
+
+\pagebreak
 
 # Casos de prueba
 
@@ -135,6 +159,8 @@ El predicado `inicio` realiza una inicialización de la base de hechos mediante 
 
 ![Prueba 1: inicio del programa](./inicio.png)
 
+\pagebreak
+
 ## Transiciones entre estados
 
 A continuación, el usuario elige una acción; por ejemplo, `dejar_mas`. El resultado esperado es que el humor mejore y la penalización aumente. Sin embargo, el usuario no lo visualizará por consola hasta que no esté despierta. Por lo tanto, se introduce también el comando `despertar`.
@@ -143,31 +169,47 @@ A continuación, el usuario elige una acción; por ejemplo, `dejar_mas`. El resu
 
 En la captura se puede comprobar cómo, efectivamente, la penalización ha subido en 5 y el humor en 10.
 
+\pagebreak
+
 Las siguientes transiciones son todas muy similares en cuanto a funcionalidad: se muestran conversaciones y situaciones en la consola y se modifican los indicadores y la penalización en consecuencia. Especial mención merece el sistema para evitar que se pueda pasar más de una vez por los estados mostrados (una lista con estados visitados). Se puede comprobar su correcto funcionamiento seleccionando una acción y confirmando que, en la siguiente elección, esta ya no aparecerá. Por ejemplo, se selecciona `jugar_salon` y se comprueba cómo esta acción no vuelve a aparecer en el listado siguiente. 
 
-![Prueba 3: listados de estados visitados](./transiciones_2.png)
+![Prueba 3: listados de estados matutinos visitados](./transiciones_2.png)
+
+\pagebreak
 
 Para probar el predicado `check_indicadores`, que contiene varios hechos con Variable, una estructura condicional y encadena con otras reglas (como `penaliza_hambre` o `penaliza_humor`, se irán seleccionando todas las opciones que no sean `hacer_pis` para conseguir que el indicador del pis suba y llegue al umbral.
 
 ![Prueba 4: superación de umbral de indicadores](./transiciones_3.png)
 
-Al haber recorrido todos los estados denominados "matinales", se introduce dinámicamente un nuevo hecho con una transición nueva mapeada con la acción `ir_cole`. Una vez alcanzado el estado `aprendiendo`, se produce una reinicialización de los indicadores básicos vitales (puesto que en el cole pueden haber cambiado muchas cosas). a_Los estados subsiguientes no aportan prácticamente nada nuevo en cuanto a funcionalidad (siguen modificándose los valores de indicadores y penalizaciones). Sí es interesante probar el mecanismo de transición de estados vespertinos, similar al de estados matutinos comprobado anteriormente. Se introducen en el programa una serie de acciones hasta llegar a este punto en el flujo del mismo:
+\pagebreak
+
+Al haber recorrido todos los estados denominados "matinales", se introduce dinámicamente un nuevo hecho con una transición nueva mapeada con la acción `ir_cole`. Una vez alcanzado el estado `aprendiendo`, se produce una reinicialización de los indicadores básicos vitales (puesto que en el cole pueden haber cambiado muchas cosas). Los estados subsiguientes no aportan prácticamente nada nuevo en cuanto a funcionalidad (siguen modificándose los valores de indicadores y penalizaciones). Sí es interesante probar el mecanismo de transición de estados vespertinos, similar al de estados matutinos comprobado anteriormente. Se introducen en el programa una serie de acciones hasta llegar a este punto en el flujo del mismo:
 
 ![Prueba 5: varios estados](./transiciones_4.png)
+
+\pagebreak
 
 ## Fin del programa
 
 Se puede comprobar cómo, una vez visitado un estado (ej., a través de las acciones `cenar` o `hacer_caca`) este desaparece de la lista de opciones. Una vez más, como en el caso de los estados vespertinos, la visita al último estado disponible dispara la creación de un nuevo hecho con la transición final, `a_dormir`. 
 
-![Prueba 5: fin de la simulación](./fin.png)
+![Prueba 6: listados de estados vespertinos visitados](./transiciones_5.png)
+
+\pagebreak
 
 En el mensaje de finalización se muestra la penalización obtenida sin emitir ningún juicio de valor acerca de si son muchas o pocas horas disponibles (de hecho, el propio programa deja esto a criterio del usuario, puesto que no todos necesitamos las mismas horas de estudio).
 
+![Prueba 7: fin de la simulación](./fin.png)
+
+\pagebreak
+
 ## Salida del programa y re-ejecución
  
-Cabe destacar que existe una acción ejecutable desde todos los estados y que lleva a un mismo estado de terminación del programa (esta vez por deseo del usuario, no siguiendo su flujo natural). Para probar dicha acción, basta con iniciar de nuevo el programa y teclear la acción `salir.`. 
+Cabe destacar que existe una acción ejecutable desde todos los estados y que lleva a un mismo estado de terminación del programa (esta vez por deseo del usuario, no siguiendo su flujo natural). Para probar dicha acción, basta con iniciar de nuevo el programa y teclear la acción `salir.` En esta prueba, también se puede confirmar que la simulación anterior no interfiere con la nueva, inicializándose la base de hechos convenientemente para el caso.
 
-![Prueba 5: fin de la simulación](./salida.png)
+![Prueba 8: salida de usuario](./salida.png)
+
+\pagebreak
 
 
 # Conclusiones y valoración
@@ -178,4 +220,4 @@ Dicho esto y solucionada la elección del tema, el aprendizaje de Prolog ha sido
 
 De la aproximación metodológica aplicada, lo que más me ha ayudado ha sido el enfoque iterativo e incremental. Este enfoque me ha permitido avanzar en el desarrollo de funcionalidad con solvencia, así como dejar la refactorización y mejora del código para momentos posteriores, cuando mi experiencia y conocimiento eran mayores. 
 
-Creo que Prolog es un lenguaje muy potente que me gustaría explorar en mayor profundidad si tuviera la oportunidad. Quizá el aspecto idiomático que más me ha llamado la atención es la forma de tratar condicionales con reglas, prácticamente eliminando la necesidad de utilizar estructuras `if-then-else`. En la práctica he utilizado en ocasiones la estructura específica que proporciona Prolog con el único objeto de tener un código quizá más compacto. Quizá echaría en falta haber visto un ejemplo de caso de uso real de Prolog, al margen de juegos y simulaciones, para hacerme una idea de qué tipo de problemas puede resolver en ámbitos industriales o de investigación, por ejemplo.
+Creo que Prolog es un lenguaje muy potente que me gustaría explorar en mayor profundidad si tuviera la oportunidad. Quizá el aspecto idiomático que más me ha llamado la atención es la forma de tratar condicionales con reglas, prácticamente eliminando la necesidad de utilizar estructuras `if-then-else` (véase por ejemplo el predicado `sucesos`). En la práctica he utilizado en ocasiones la estructura específica que proporciona Prolog con el único objeto de tener un código más compacto. Quizá echaría en falta haber visto un ejemplo de caso de uso real de Prolog, al margen de juegos y simulaciones, para hacerme una idea de qué tipo de problemas puede resolver en ámbitos industriales o de investigación, por ejemplo (así como su posible integración con otras tecnologías como aplicaciones web, Java, etc.).

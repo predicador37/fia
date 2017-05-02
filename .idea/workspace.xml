@@ -2,6 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b5579ad-8e11-4820-b891-e2933796a31a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fin.png" afterPath="$PROJECT_DIR$/fin.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/salida.png" afterPath="$PROJECT_DIR$/salida.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transiciones_1.png" afterPath="$PROJECT_DIR$/transiciones_1.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transiciones_2.png" afterPath="$PROJECT_DIR$/transiciones_2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transiciones_3.png" afterPath="$PROJECT_DIR$/transiciones_3.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transiciones_4.png" afterPath="$PROJECT_DIR$/transiciones_4.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lucia.pl" afterPath="$PROJECT_DIR$/lucia.pl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/memoria.md" afterPath="$PROJECT_DIR$/memoria.md" />
@@ -25,8 +31,8 @@
           <file leaf-file-name="lucia.pl" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/lucia.pl">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="586">
-                  <caret line="252" column="97" lean-forward="false" selection-start-line="252" selection-start-column="97" selection-end-line="252" selection-end-column="97" />
+                <state relative-caret-position="170">
+                  <caret line="342" column="118" lean-forward="false" selection-start-line="342" selection-start-column="118" selection-end-line="342" selection-end-column="118" />
                   <folding />
                 </state>
               </provider>
@@ -66,8 +72,8 @@
             <entry file="file://$PROJECT_DIR$/memoria.md">
               <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
                 <state split_layout="FIRST">
-                  <first_editor relative-caret-position="720">
-                    <caret line="167" column="289" lean-forward="false" selection-start-line="167" selection-start-column="289" selection-end-line="167" selection-end-column="289" />
+                  <first_editor relative-caret-position="855">
+                    <caret line="221" column="0" lean-forward="true" selection-start-line="221" selection-start-column="0" selection-end-line="221" selection-end-column="0" />
                     <folding />
                   </first_editor>
                   <second_editor />
@@ -95,6 +101,7 @@
       <find>--&gt;</find>
       <find>incrementa_indicador</find>
       <find>reduce_indicador</find>
+      <find>ger</find>
     </findStrings>
     <replaceStrings>
       <replace>vespertinos</replace>
@@ -131,13 +138,13 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1279" />
-    <option name="y" value="27" />
-    <option name="width" value="2050" />
-    <option name="height" value="1126" />
+    <option name="x" value="1999" />
+    <option name="y" value="179" />
+    <option name="width" value="1280" />
+    <option name="height" value="831" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -150,25 +157,7 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fia" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fia" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -584,15 +573,15 @@
       <option name="presentableId" value="Default" />
       <updated>1493329814088</updated>
       <workItem from="1493329819380" duration="16107000" />
-      <workItem from="1493708367577" duration="9699000" />
+      <workItem from="1493708367577" duration="15444000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25806000" />
+    <option name="totallyTimeSpent" value="31551000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1279" y="27" width="2050" height="1126" extended-state="7" />
+    <frame x="1999" y="179" width="1280" height="831" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="PlantUML" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22708334" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -715,8 +704,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lucia.pl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
-          <caret line="252" column="97" lean-forward="false" selection-start-line="252" selection-start-column="97" selection-end-line="252" selection-end-column="97" />
+        <state relative-caret-position="170">
+          <caret line="342" column="118" lean-forward="false" selection-start-line="342" selection-start-column="118" selection-end-line="342" selection-end-column="118" />
           <folding />
         </state>
       </provider>

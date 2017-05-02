@@ -81,7 +81,7 @@ transicion(cenar, 'cenar', miccionando, cenando).
 transicion(contar_cuento, 'contar un cuento antes de dormir', miccionando, imaginando).
 
 % Este estado debe poder alcanzarse desde cualquier otro
-transicion(salir, 'salir', _, 'triste porque te vas').
+transicion(salir, 'salir del programa', _, 'triste porque te vas').
 
 % estado inicial y listas de estados visitados
 actual(dormida).
@@ -108,6 +108,7 @@ inicio :-
   asserta(contador(penalizacion,0)),
   lucia.
 
+% bloque de presentación y llamada al control principal
 lucia :-
   cambiar(dormida),
 
@@ -126,7 +127,7 @@ lucia :-
   writeln('*** Bienvenido a L.U.C.I.A. , acrónimo recursivo de (Lucía, Única Candidata para Inteligencia Artificial'),
   writeln('*** En el siguiente simulador, tomarás el rol de papá de una niña maravillosa llamada Lucía. ¿Y por qué no su mamá? Pues por nada en especial; porque este programa está pensado por un papá y ha decidido compartir su experiencia muy personal. No obstante, seas hombre, mujer, papá o mamá, estás invitado a probar este programa y comprobar si te recuerda a algo...'),
   writeln('*** La simulación puede tomarse como un juego; el objetivo final es que, al acabar el día, el papá disponga del mayor tiempo posible para estudiar sus asignaturas de la UNED de este cuatrimestre.'),
-  writeln('*** Ello es función, en parte, de una componente aleatoria que depende del día; y en otra parte, de las acciones y decisiones que el papá vaya tomando a lo largo del día. Estas decisiones afectarán a los distintos indicadores que modeln el estado de la niña (sueño, hambre, etc.). Si los indicadores superan unos umbrales máximos, ten por seguro que perderás mucho tiempo. Pueden ocurrir sucesos curiosos, como que la niña se pase de vueltas y por eso tarde más en dormirse...'),
+  writeln('*** Ello es función, en parte, de una componente aleatoria que depende del día; y en otra parte, de las acciones y decisiones que el papá vaya tomando a lo largo del día. Estas decisiones afectarán a los distintos indicadores que modelan el estado de la niña (sueño, hambre, etc.). Si los indicadores superan unos umbrales máximos, ten por seguro que perderás mucho tiempo. Pueden ocurrir sucesos curiosos, como que la niña se pase de vueltas y por eso tarde más en dormirse...'),
   writeln('*** Se ha pretendido que la simulación sea lo más real posible dentro de lo razonable. ¡Prueba suerte y disfruta!'),
   actual(Estado),
   que_hago(_, Estado, Estado),
@@ -145,7 +146,7 @@ control_principal(EstadoAnterior) :-
   que_hago(Accion, EstadoAnterior, NuevoEstado),
   control_principal(NuevoEstado).
 
-% condición de fin para el control principal
+% condición de fin para el control principal: fin de juego o provocado por usuario
 condicion_fin(Estado) :-
   actual(Estado) = actual(soñando),
   check_pasada_de_vueltas,
@@ -207,9 +208,9 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('*** El humor de la niña mejora, pero sube todo lo demás... ahora tiene más hambre y ganas de hacer pis. ¡¡Cuidado!!'),
 	actualiza_estados(matutinos,Estado),
 	penaliza(5),
-	% El siguiente snippet incrementa en 10 todos los indicadores
+	% El siguiente snippet incrementa en 5 todos los indicadores
 	findall(Indicador, (contador(Indicador, _),(Indicador \= sueño, Indicador \= penalizacion)), Suben),
-	maplist(incrementa_indicador(10),Suben).
+	maplist(incrementa_indicador(5),Suben).
 
 % SUCESOS DESAYUNANDO
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -220,7 +221,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: - Vale, papá.'),
 	writeln('*** A la niña se le quita el hambre, pero tarda mucho en desayunar...'),
 	actualiza_estados(matutinos, Estado),
-	reduce_indicador(20, hambre),
+	reduce_indicador(30, hambre),
 	incrementa_indicador(10, piscaca),
 	penaliza(10).
 
@@ -235,7 +236,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	actualiza_estados(matutinos, Estado),
 	reemplaza_indicador(piscaca,5),
 	incrementa_indicador(10, humor),
-	incrementa_indicador(10, hambre).
+	incrementa_indicador(5, hambre).
 	
 % SUCESOS BAÑANDOSE
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -251,7 +252,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	actualiza_estados(matutinos, Estado),
 	penaliza(15),
 	findall(Indicador, (contador(Indicador, _),(Indicador \= sueño, Indicador \= penalizacion)), Suben),
-    maplist(incrementa_indicador(10),Suben).
+    maplist(incrementa_indicador(5),Suben).
 	
 % SUCESOS LISTA PARA IR AL COLE
 sucesos(Accion, EstadoAnterior, Estado) :-
@@ -267,7 +268,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	Accion = con_muñeco,
 	writeln('papá: - Vale, ¿qué muñeco quieres?'),
 	writeln('nena: - Mmmmm quiero a Sky... no, quierooo... ¡quiero al payaso!'),
-	writeln('papá: - Vamos a buscarle al cajón. Pero se queda en el coche, ¿eh? Que Paula no nos deja llevar juguetes.'),
+	writeln('papá: - Vamos a buscarle al cajón. Pero se queda en el coche, ¿eh? Que la profe no nos deja llevar juguetes.'),
 	writeln('nena: - ¡Vale, papá!'),
 	writeln('*** Lucía se queda muy contenta llevando el muñeco, aunque lo tenga que dejar en el coche.'),  
 	writeln('*** Pasa una ardua mañana de trabajo y de cole y vuelves a buscar a la niña.'),
@@ -294,7 +295,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: - Vale...'),
 	writeln('*** Lucía se queda un poco chafada por no poder llevar el muñeco.'), 
 	writeln('*** Pasa una ardua mañana de trabajo y de cole y vuelves a buscar a la niña.'),
-	writeln('*** En el cole le dan de comer, hace pis y duerme un poco de siesta; normalmente, estos indicadores están en valores inferiores a la mitad.'), 
+	writeln('*** En el cole le dan de comer, hace pis y duerme un poco de siesta; normalmente, estos indicadores están en valores inferiores a la mitad. También la dan de merendar...'),
 	writeln('*** Hay un pequeño rato de conversación en el coche hasta llegar a casa, donde la pones dibujos antes de irte a comer.'),
 	writeln('*** No, poner dibujos NO ES OPCIONAL.'),
 	writeln('papá: - ¡¡¿¿Qué tal, mi niña??!!'),
@@ -339,7 +340,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('papá: - También.'),
 	writeln('nena: - ¡Bieeeen! Lo hago yo, papá.'),
 	writeln('papá: - Vale.'),
-	writeln('*** Hacéis la compra y mientras tanto, Lucía te pide un poco de pan. Dar vueltas por el súper no deja de pioneser cansado... '),
+	writeln('*** Hacéis la compra y mientras tanto, Lucía te pide un poco de pan. Dar vueltas por el súper no deja de ser cansado... '),
 	incrementa_indicador(10, humor),
 	reduce_indicador(10, hambre),
 	incrementa_indicador(10, sueño),
@@ -398,7 +399,7 @@ sucesos(Accion, EstadoAnterior, Estado) :-
 	writeln('nena: - ¡He hecho caca!'),
 	writeln('papá: - ¡Qué bien!'),
 	writeln('*** Cielos... ¡qué pestazo! Tu tono de vez diciendo "qué bien" lo dice todo.'),
-	writeln('*** LImpias bien a la niña, le subes el pijama y le ayudas a tirar de la cadena. Dejas el extractor puesto... tan pequeña y tan matona.'),
+	writeln('*** Limpias bien a la niña, le subes el pijama y le ayudas a tirar de la cadena. Dejas el extractor puesto... tan pequeña y tan matona.'),
 	actualiza_estados(vespertinos, Estado),
 	reemplaza_indicador(piscaca,5),
 	penaliza(5).
@@ -432,7 +433,8 @@ check_indicadores :-
 	(Piscaca >= 80 -> penaliza_pis; Hambre >= 80 -> penaliza_hambre; Humor =< 30 -> penaliza_humor ).
 check_indicadores :-
 	true.
-	
+
+% comprueba el humor a la salida del colegio
 check_humor :-
 	contador(humor, Humor),
 	( Humor =< 50 -> writeln('nena: - Mal...'),
@@ -443,10 +445,12 @@ check_humor :-
 				   writeln('papá: - ¿Qué habéis hecho hoy?'), 
 				   writeln('*** Lucía empieza a contar historias sobre sus amiguitos, sus dibujos, sus juguetes...')).
 
+% comprueba el humor antes de ir a dormir
 check_humor_pijama :-
 	contador(humor, Humor),
 	( Humor =< 30 -> penaliza(10)).
 
+% comprueba si está pasada de vueltas (tiene mucho sueño) antes de ir a dormir
 check_pasada_de_vueltas :-
     contador(sueño, Sueño),
     ( Sueño >= 85 -> writeln('Lucía tiene tanto sueño que se ha pasado de vueltas... vas a tardar un rato en dormirla.'), penaliza(15);true).
@@ -543,19 +547,19 @@ hacer(Accion):-
 	puedo_hacer(Estado),
 	cambiar(Estado).
 
-
+% muestra por consola una lista de las transiciones posibles desde un estado dado
 lista_transiciones(Estado, VisitadosMatutinos, VisitadosVespertinos) :-
 	writeln('---------------------------------------------------------------------------------------------------------------------------'),
 	forall((transicion(Accion, Descripcion, Estado, EstadoDestino), \+ member(EstadoDestino, VisitadosMatutinos), \+ member(EstadoDestino, VisitadosVespertinos)), print_par(Accion,Descripcion)),
 	writeln('---------------------------------------------------------------------------------------------------------------------------').
-
+% muestra por consola una lista de los indicadores básicos y sus valores en el momento actual
 lista_indicadores :-
 	writeln('==========================================================================================================================='),
 	forall(contador(P,Q), print_par(P,Q)),
 	writeln('===========================================================================================================================').
 	
 
-% indica en que estado se encuentra la niña y que se puede hacer
+% indica en qué estado se encuentra la niña y qué se puede hacer
 que_hago(Accion, EstadoAnterior, Estado) :-
   writeln('.................................'),	
   write('Lucía está '), write(Estado), nl,
@@ -567,6 +571,7 @@ que_hago(Accion, EstadoAnterior, Estado) :-
   ( length(VisitadosMatutinos,4) -> asserta(transicion('ir_cole', 'vamos al cole ya', Estado, lista));true),
   estados_visitados(vespertinos,VisitadosVespertinos),
   ( length(VisitadosVespertinos,3) -> asserta(transicion('a_dormir', 'vamos a dormir', Estado, soñando));true),
-  writeln('¿Qué hacemos ahora? (introduzca un comando seguido de punto . )'),
-  % lista las transiciones disponibles desde ese estado, teniendo en cuenta los ya visitados en el caso de los matutinos para reducir el árbol de estados
-  lista_transiciones(Estado, VisitadosMatutinos, VisitadosVespertinos).
+    % lista las transiciones disponibles desde ese estado, teniendo en cuenta los ya visitados en el caso de los matutinos para reducir el árbol de estados
+    % si se está saliendo del programa, no se muestra por pantalla
+  ( \+ Estado = 'triste porque te vas', \+ Estado = soñando ->  writeln('¿Qué hacemos ahora? (introduzca un comando seguido de punto . y pulse enter)'), 
+                          lista_transiciones(Estado, VisitadosMatutinos, VisitadosVespertinos);true).
